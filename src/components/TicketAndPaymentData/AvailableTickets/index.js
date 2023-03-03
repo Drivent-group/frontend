@@ -9,6 +9,7 @@ export default function AvailableTickets() {
         {'Primeiro, escolha sua modalidade de ingresso'}
       </StyledTypography>
       <Cards/>
+      
     </Box>
   );
 }
