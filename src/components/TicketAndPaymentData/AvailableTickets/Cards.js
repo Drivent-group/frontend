@@ -34,7 +34,7 @@ export default function Cards() {
 
   useEffect(() => {
     if(cards.availableTickets) {
-      setTickets(cards.availableTickets);
+      setTickets(cards.availableTickets.ticketTipesWhithoutHotel);
     }
   }, [cards.availableTicketsLoading]);
 
