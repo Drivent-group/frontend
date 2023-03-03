@@ -3,19 +3,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useAvailableTickets from '../../../hooks/api/useAvailableTickets';
 
-function Card({ item, counter, setCounter }) {
-  const [chosen, setChosen] = React.useState(false);
+function Card({ item, chosen, setChosen }) {
+  const [color, setColor] = useState(false);
   const click = () => {
-    if(counter === 0 && chosen === false) {
+    if(chosen === false && color === false) {
       setChosen(true);
-      setCounter(counter + 1);
-    }else if(counter === 1 && chosen === true) {
+      setColor(true);
+    }else if(chosen === true && color === true) {
       setChosen(false);
-      setCounter(0);
+      setColor(false);      
     };
   };
   return (
-    <TicketCard key={item.id} onClick={click} alignitems="center" className={chosen}>
+    <TicketCard key={item.id} onClick={click} alignitems="center" className={color}>
       <StyledTypography  alignitems="center" variant="body1" color="textSecondary" align="center">
         {item.name}
       </StyledTypography>
@@ -28,9 +28,8 @@ function Card({ item, counter, setCounter }) {
 
 export default function Cards() {
   const [tickets, setTickets] = useState([]);
-  const [counter, setCounter] = useState(0);
+  const [chosen, setChosen] = React.useState(false);
   const cards = useAvailableTickets();
-  console.log(counter);
   
   useEffect(() => {
     if(cards.availableTickets) {
@@ -52,8 +51,8 @@ export default function Cards() {
         {tickets.map((item) => (<Card 
           key={item.id} 
           item={item} 
-          counter={counter}
-          setCounter={setCounter}
+          chosen={chosen}
+          setChosen={setChosen}
         />))}
       </Tickets>
     );
