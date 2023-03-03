@@ -9,8 +9,10 @@ export async function getAvailableTickets(token) {
 
   const ticketTipes = [];
 
-  for (let i = 0; i < 2; i++) {
-    ticketTipes.push(response.data[i]);    
+  for (let i = 0; i < response.data.length; i++) {
+    if (!response.data[i].includesHotel) {
+      ticketTipes.push(response.data[i]);
+    };   
   }
 
   return ticketTipes;
