@@ -1,6 +1,7 @@
+import Onlineticket from './Summary';
 
 export const display = {
-  true: 'resumo do pedido online',
+  true: <Onlineticket/>,
   false: 'com ou sem hotel',
   null: ''
 };
