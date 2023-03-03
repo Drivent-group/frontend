@@ -17,7 +17,7 @@ function Card({ item, chosen, setChosen }) {
   };
   return (
     <TicketCard key={item.id} onClick={click} alignitems="center" className={chosen === item ? true : false}>
-      <StyledTypography  alignitems="center" variant="body1" color="textSecondary" align="center">
+      <StyledTypography  alignitems="center" variant="body1" color="textPrimary" align="center">
         {item.name}
       </StyledTypography>
       <StyledTypography alignitems="center" variant="body2" color="textSecondary" align="center">
@@ -31,9 +31,6 @@ export default function Cards() {
   const [tickets, setTickets] = useState([]);
   const [chosen, setChosen] = React.useState(null);
   const cards = useAvailableTickets();
-  
-  console.log(chosen);
-  console.log(display);
 
   useEffect(() => {
     if(cards.availableTickets) {
@@ -66,10 +63,6 @@ export default function Cards() {
       
     );
   };
-}
-
-function isObject(obj) {
-  return obj === Object(obj);
 }
 
 const StyledTypography = styled(Typography)`
