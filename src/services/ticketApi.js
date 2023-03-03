@@ -7,6 +7,12 @@ export async function getAvailableTickets(token) {
     },
   });
 
-  return response.data;
+  const ticketTipes = [];
+
+  for (let i = 0; i < 2; i++) {
+    ticketTipes.push(response.data[i]);    
+  }
+
+  return ticketTipes;
 }
 //
