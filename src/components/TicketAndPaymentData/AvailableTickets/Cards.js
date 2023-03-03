@@ -1,6 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useAvailableTickets from '../../../hooks/api/useAvailableTickets';
 
 function Card(props) {
   const [chosen, setChosen] = React.useState(false);
@@ -20,32 +21,30 @@ function Card(props) {
 }
 
 export default function Cards() {
-  const tickets =[
-    {
-      'id': 2,
-      'name': 'Presencial',
-      'price': 250,
-      'isRemote': false,
-      'includesHotel': false,
-      'createdAt': '2023-03-02T02:29:06.818Z',
-      'updatedAt': '2023-03-02T02:29:06.818Z'
-    },
-    {
-      'id': 3,
-      'name': 'Online',
-      'price': 100,
-      'isRemote': true,
-      'includesHotel': false,
-      'createdAt': '2023-03-02T02:30:13.856Z',
-      'updatedAt': '2023-03-02T02:30:13.856Z'
+  const [tickets, setTickets] = useState([]);
+  const cards = useAvailableTickets();
+
+  useEffect(() => {
+    if(cards.availableTickets) {
+      setTickets(cards.availableTickets);
     }
-  ];
-  
-  return(
-    <Tickets>
-      {tickets.map((item) => (<Card key={item.id} name={item.name} price={item.price} />))}
-    </Tickets>
-  );
+  }, [cards.availableTicketsLoading]);
+
+  if (tickets.length === 0) {
+    return(
+      <Tickets>
+        <StyledTypography alignitems="center" variant="body1" color="textSecondary" align="center">
+          {'carregando Tickets'}
+        </StyledTypography>
+      </Tickets>
+    );
+  } else {
+    return(
+      <Tickets>
+        {tickets.map((item) => (<Card key={item.id} name={item.name} price={item.price} />))}
+      </Tickets>
+    );
+  };
 };
 
 const StyledTypography = styled(Typography)`
