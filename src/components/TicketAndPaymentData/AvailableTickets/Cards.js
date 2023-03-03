@@ -4,18 +4,18 @@ import styled from 'styled-components';
 import useAvailableTickets from '../../../hooks/api/useAvailableTickets';
 
 function Card({ item, chosen, setChosen }) {
-  const [color, setColor] = useState(false);
   const click = () => {
-    if(chosen === false && color === false) {
-      setChosen(true);
-      setColor(true);
-    }else if(chosen === true && color === true) {
-      setChosen(false);
-      setColor(false);      
+    if(chosen === null) {
+      setChosen(item);
+    }else if(chosen === item) {
+      setChosen(null);      
+    }else if(chosen !== item && chosen !== null) {
+      setChosen(null);
+      setChosen(item);      
     };
   };
   return (
-    <TicketCard key={item.id} onClick={click} alignitems="center" className={color}>
+    <TicketCard key={item.id} onClick={click} alignitems="center" className={chosen === item ? true : false}>
       <StyledTypography  alignitems="center" variant="body1" color="textSecondary" align="center">
         {item.name}
       </StyledTypography>
@@ -28,7 +28,7 @@ function Card({ item, chosen, setChosen }) {
 
 export default function Cards() {
   const [tickets, setTickets] = useState([]);
-  const [chosen, setChosen] = React.useState(false);
+  const [chosen, setChosen] = React.useState(null);
   const cards = useAvailableTickets();
   
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Cards() {
       <Tickets>
         {tickets.map((item) => (<Card 
           key={item.id} 
-          item={item} 
+          item={item}
           chosen={chosen}
           setChosen={setChosen}
         />))}
