@@ -3,18 +3,24 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useAvailableTickets from '../../../hooks/api/useAvailableTickets';
 
-function Card(props) {
+function Card({ item, counter, setCounter }) {
   const [chosen, setChosen] = React.useState(false);
-  function select() {
-    setChosen(!chosen);
-  }
+  const click = () => {
+    if(counter === 0 && chosen === false) {
+      setChosen(true);
+      setCounter(counter + 1);
+    }else if(counter === 1 && chosen === true) {
+      setChosen(false);
+      setCounter(0);
+    };
+  };
   return (
-    <TicketCard key={props.id} onClick={select} alignitems="center" className={chosen}>
-      <StyledTypography alignitems="center" variant="body1" color="textSecondary" align="center">
-        {props.name}
+    <TicketCard key={item.id} onClick={click} alignitems="center" className={chosen}>
+      <StyledTypography  alignitems="center" variant="body1" color="textSecondary" align="center">
+        {item.name}
       </StyledTypography>
-      <StyledTypography alignitems="center" variant="body1" color="textSecondary" align="center">
-        {props.price}
+      <StyledTypography alignitems="center" variant="body2" color="textSecondary" align="center">
+        {`R$ ${item.price}`}
       </StyledTypography>
     </TicketCard>
   );
@@ -22,8 +28,10 @@ function Card(props) {
 
 export default function Cards() {
   const [tickets, setTickets] = useState([]);
+  const [counter, setCounter] = useState(0);
   const cards = useAvailableTickets();
-
+  console.log(counter);
+  
   useEffect(() => {
     if(cards.availableTickets) {
       setTickets(cards.availableTickets);
@@ -41,14 +49,19 @@ export default function Cards() {
   } else {
     return(
       <Tickets>
-        {tickets.map((item) => (<Card key={item.id} name={item.name} price={item.price} />))}
+        {tickets.map((item) => (<Card 
+          key={item.id} 
+          item={item} 
+          counter={counter}
+          setCounter={setCounter}
+        />))}
       </Tickets>
     );
   };
 };
 
 const StyledTypography = styled(Typography)`
-  margin-bottom: 5px !important;
+line-height: 1 !important;
 `;
 
 const Tickets = styled(Box)`
@@ -56,6 +69,10 @@ const Tickets = styled(Box)`
   justify-content: flexstart;
 
   margin-top: 17px;
+
+  .true {
+  background-color: #FFEED2;
+  }
 `;
 
 const TicketCard = styled(Box)`
@@ -71,6 +88,6 @@ const TicketCard = styled(Box)`
   border-radius: 20px;
 
   margin-right: 24px;
-  
+
 `;
 
