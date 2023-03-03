@@ -2,6 +2,7 @@ import { Box, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useAvailableTickets from '../../../hooks/api/useAvailableTickets';
+import { display } from './Display';
 
 function Card({ item, chosen, setChosen }) {
   const click = () => {
@@ -31,6 +32,9 @@ export default function Cards() {
   const [chosen, setChosen] = React.useState(null);
   const cards = useAvailableTickets();
   
+  console.log(chosen);
+  console.log(display);
+
   useEffect(() => {
     if(cards.availableTickets) {
       setTickets(cards.availableTickets);
@@ -39,6 +43,7 @@ export default function Cards() {
 
   if (tickets.length === 0) {
     return(
+      
       <Tickets>
         <StyledTypography alignitems="center" variant="body1" color="textSecondary" align="center">
           {'carregando Tickets'}
@@ -47,17 +52,25 @@ export default function Cards() {
     );
   } else {
     return(
-      <Tickets>
-        {tickets.map((item) => (<Card 
-          key={item.id} 
-          item={item}
-          chosen={chosen}
-          setChosen={setChosen}
-        />))}
-      </Tickets>
+      <>
+        <Tickets >
+          {tickets.map((item) => (<Card 
+            key={item.id} 
+            item={item}
+            chosen={chosen}
+            setChosen={setChosen}
+          />))}
+        </Tickets>
+        {display[chosen?.isRemote]}
+      </>
+      
     );
   };
-};
+}
+
+function isObject(obj) {
+  return obj === Object(obj);
+}
 
 const StyledTypography = styled(Typography)`
 line-height: 1 !important;
