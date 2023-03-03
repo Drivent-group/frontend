@@ -7,14 +7,18 @@ export async function getAvailableTickets(token) {
     },
   });
 
-  const ticketTipes = [];
+  const ticketTipesWhithoutHotel = [];
+  const ticketTipesWhithHotel = [];
 
   for (let i = 0; i < response.data.length; i++) {
     if (!response.data[i].includesHotel) {
-      ticketTipes.push(response.data[i]);
-    };   
+      ticketTipesWhithoutHotel.push(response.data[i]);
+    };
+    if (response.data[i].includesHotel) {
+      ticketTipesWhithHotel.push(response.data[i]);
+    };  
   }
 
-  return ticketTipes;
+  return { ticketTipesWhithoutHotel, ticketTipesWhithHotel };
 }
 //
