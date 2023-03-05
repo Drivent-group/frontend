@@ -1,6 +1,7 @@
 import NoEnrollment from './NoEnrollment';
+import AvailableTickets from './AvailableTickets';
 
 export const display = {
-  true: 'Você já se inscreveu, parabéns!',
+  true: <AvailableTickets />,
   false: <NoEnrollment />,
 };
