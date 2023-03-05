@@ -7,7 +7,9 @@ export default function TicketAndPaymentData({ hasEnrollment }) {
   return (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      {display[hasEnrollment]} 
+      {/*  {display[hasEnrollment]} */}
+
+      {/*  <CreditCardComponent modality = "Presencial" hotelChoice = "Com Hotel" finalValue = "R$ 600" ></CreditCardComponent>  */}
 
     </>
   );

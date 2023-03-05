@@ -2,55 +2,48 @@ import styled from 'styled-components';
 import React from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
+import { useState } from 'react';
 
-export default  function CreditCardComponent() {
+export default  function CreditCardComponent(props) {
+  const { modality, hotelChoice, finalValue, ticketId } = props;
+  
+  const [form, setForm] = useState({
+    cvc: '', 
+    expiry: '', 
+    name: '',
+    number: '' 
+  });
+
+  function handleForm(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    }); 
+  }
+  function submitPayment(data) {
+    const issuer= 'visa';  
+    const dataToInsert = {
+      ticketId
+    };
+  }
+
   return (
     <>
 		   <Paragraphs>Ingresso Escolhido</Paragraphs>
 
       <TicketCard>
-        <p>Presencial + Com Hotel</p>
-        <Paragraphs>R$ 600</Paragraphs>
+        <p>{modality} + {hotelChoice}</p>
+        <Paragraphs>{finalValue}</Paragraphs>
       </TicketCard>
       <Paragraphs>Pagamento</Paragraphs>
-      <PaymentForm></PaymentForm>
-      
-      <Button> 
-        <p> Finalizar Pagamento</p>
-      </Button>
-
-    </>
-  );
-}
-
-class PaymentForm extends React.Component {
-  state = {
-    cvc: '',
-    expiry: '',
-    focus: '',
-    name: '',
-    number: '',
-  };
- 
-  handleInputFocus = (e) => {
-    this.setState({ focus: e.target.name });
-  }
-  
-  handleInputChange = (e) => {
-    const { name, value } = e.target;
-    
-    this.setState({ [name]: value });
-  }
-  
-  render() {
-    return (
       <PaymentFormBox>
         <Cards
-          cvc={this.state.cvc}
-          expiry={this.state.expiry}
-          focused={this.state.focus}
-          name={this.state.name}
-          number={this.state.number}
+          cvc={form.cvc}
+          expiry={form.expiry}
+          focused={form.focus}
+          name={form.name}
+          number={form.number}
+          issuer = "visa"
         />
         <form>
           <Topbox>
@@ -58,8 +51,8 @@ class PaymentForm extends React.Component {
               type="tel"
               name="number"
               placeholder="Card Number"
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFocus}
+              onChange={handleForm}
+              value={form.description}
               maxLength = "16"
             />
             <h1>E.g.: 49...,51...,36...,37...</h1>
@@ -67,8 +60,8 @@ class PaymentForm extends React.Component {
               type="text"
               name="name"
               placeholder="Name"
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFocus}
+              onChange={handleForm}
+              value={form.description}
               width  = "5px"
             />
           </Topbox>
@@ -79,23 +72,29 @@ class PaymentForm extends React.Component {
               maxLength= "4"
               mask = "00/00"
               placeholder="Valid Thru"
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFocus}
+              onChange={handleForm}
+              value={form.description}
             />
             <CvcInput
-              type="tel"
+              type="cvc"
               name="cvc"
               placeholder="CVC"
               maxLength= "4"
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFocus}
+              onChange={handleForm}
+              value={form.description}
             />
           </InnerBox>   
         </form>
       </PaymentFormBox>
-    );
-  }
+      
+      <Button onClick={() => {submitPayment(form);}}> 
+        <p> Finalizar Pagamento</p>
+      </Button>
+
+    </>
+  );
 }
+
 const PaymentFormBox = styled.div`
 display: flex;
 padding-right: 50px;
@@ -125,6 +124,7 @@ input {
   text-align: start;
   color: #454545;
   padding-left: 10px;
+  color: gray;
 }
 `;
 const Paragraphs = styled.h1`
