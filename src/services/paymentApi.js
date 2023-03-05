@@ -1,22 +1,11 @@
-import useAsync from '../useAsync';
-import useToken from '../useToken';
+import api from './api';
 
-import * as paymentApi from '../../services/paymentApi';
+export async function createPayment(body, token) {
+  const response = await api.post('/payments/process', body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-export default function insertPayment() {
-  const token = useToken();
-  
-  const {
-    data: payment,
-    loading: paymentLoading,
-    error: paymentError,
-    act: createPayment
-  } = useAsync((data) => paymentApi.createPayment(data, token), false);
-  
-  return {
-    payment,
-    paymentLoading,
-    paymentError,
-    createPayment
-  };
-};
+  return response.data;
+}

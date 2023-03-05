@@ -3,10 +3,13 @@ import React from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import insertPayment from '../hooks/api/usePayment'; 
+import getATicket from '../hooks/api/useTicket';
 
 export default  function CreditCardComponent(props) {
-  const { modality, hotelChoice, finalValue, ticketId } = props;
-  
+  const { modality, hotelChoice, finalValue, ticketId, userId, setIsPayed } = props;
+  const { createPayment } = insertPayment;
   const [form, setForm] = useState({
     cvc: '', 
     expiry: '', 
@@ -20,11 +23,49 @@ export default  function CreditCardComponent(props) {
       [e.target.name]: e.target.value,
     }); 
   }
-  function submitPayment(data) {
+
+  async function submitPayment(data) {
+    const cardNumberValidation = data.number < 16;
+    const nameValidation = data.name.length < 3; 
+    const expiryValidation = data.expiry.length < 4 || data.expiry.length > 6;
+    const cvcValidation = data.cvc.length < 3;
+
+    if(cardNumberValidation) {
+      toast('Digite o número correto do Cartão de Crédito');
+      return;
+    }
+    if (nameValidation) {
+      toast('Preencha corretamente o nome no Cartão');
+      return;
+    }
+    if(expiryValidation) {
+      toast('Preencha corretamente a data de validade');
+      return;
+    } 
+    if(cvcValidation) {
+      toast('Preencha corretamente os dados de CVC');
+      return;
+    }
+
     const issuer= 'visa';  
-    const dataToInsert = {
-      ticketId
+    const dataToInsert= {
+      userId,
+      ticketId: ticketId,
+      cardData: {
+        issuer: issuer,
+        number: data.number,
+        name: data.name,
+        expirationDate: data.expiry,
+        cvv: data.cvc
+      }
     };
+
+    try {
+      await createPayment (dataToInsert); 
+      setIsPayed(true);
+    } catch (error) {
+      toast('Erro ao processar o pagamento');
+    }
   }
 
   return (
