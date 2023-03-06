@@ -1,4 +1,5 @@
 import { Box, Typography } from '@material-ui/core';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Card from './Card';
@@ -8,9 +9,12 @@ function isObject(obj) {
   return obj === Object(obj);
 }
 
-export default function FaceToFaceTickets({ setSelectedTicket, ticketsData }) {
+export default function FaceToFaceTickets({ setSelectedTicket, ticketsData, setTicketData }) {
   const [chosen, setChosen] = useState(null);
-
+  useEffect(() => {
+    setTicketData(chosen);
+  }, [chosen]);
+  
   return (
     <>
       <StyledTypography variant="body1" color="textSecondary">

@@ -32,7 +32,7 @@ export default function Cards({ setSelectedTicket, setTicketData }) {
 
   const display = {
     true: <OnlineEventSummary setSelectedTicket={setSelectedTicket} ticketData={chosen} />,
-    false: <FaceToFaceTickets setSelectedTicket={setSelectedTicket} ticketsData={faceToFaceTicketsData} />,
+    false: <FaceToFaceTickets setSelectedTicket={setSelectedTicket} ticketsData={faceToFaceTicketsData} setTicketData={setTicketData} />,
     null: '',
   };
 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { toast } from 'react-toastify';
@@ -6,8 +7,9 @@ import styled from 'styled-components';
 import insertPayment from '../../../hooks/api/usePayment';
 
 export default function CreditCardComponent(props) {
-  const { modality, hotelChoice, finalValue, ticketId, userId } = props;
-  const [isPayed, setIsPayed] = useState(false);
+  const { ticketData, ticketId, userId } = props;
+  const [includesHotel, setIncludesHotel] = useState('');
+  const [isPayed, setIsPayed] = useState(true);
   const { createPayment } = insertPayment;
   const [form, setForm] = useState({
     cvc: '',
@@ -16,6 +18,16 @@ export default function CreditCardComponent(props) {
     number: '',
   });
 
+  useEffect(() => {
+    if(ticketData.TicketType.includesHotel === true) { 
+      setIncludesHotel(' + Com Hotel');
+    };
+  
+    if(ticketData.TicketType.isRemote === false && ticketData.TicketType.includesHotel === false) { 
+      setIncludesHotel(' + Sem Hotel');
+    };
+  }, []);
+  
   function handleForm(e) {
     setForm({
       ...form,
@@ -69,15 +81,21 @@ export default function CreditCardComponent(props) {
 
   return (
     <>
-      <Paragraphs>Ingresso Escolhido</Paragraphs>
-      {/* parte da larissa, pode aproveitar o css do topo do credit card component */}
+      <Title variant="h6" color="textSecondary">
+        {'Ingresso Escolhido'}
+      </Title>
+      
       <TicketCard>
-        <p>
-          {modality} + {hotelChoice}
-        </p>
-        <Paragraphs>{finalValue}</Paragraphs>
+        <StyledTypography variant="body1" color="textPrimary">
+          {`${ticketData.TicketType.name}${includesHotel}`}
+        </StyledTypography>
+        <StyledTypography color="textSecondary">
+          {`R$ ${ticketData.TicketType.price}`}
+        </StyledTypography>
       </TicketCard>
-      <Paragraphs>Pagamento</Paragraphs>
+      <Title variant="h6" color="textSecondary">
+        {'Pagamento'}
+      </Title>
       <PaymentFormBox>
         <Cards
           cvc={form.cvc}
@@ -97,7 +115,9 @@ export default function CreditCardComponent(props) {
               value={form.description}
               maxLength="16"
             />
-            <h1>E.g.: 49...,51...,36...,37...</h1>
+            <StyledTypography variant="body2" color="textSecondary">
+              {'E.g.: 49...,51...,36...,37...'}
+            </StyledTypography>
             <input
               type="text"
               name="name"
@@ -128,16 +148,24 @@ export default function CreditCardComponent(props) {
           </InnerBox>
         </form>
       </PaymentFormBox>
-      <Button
-        onClick={() => {
-          submitPayment(form);
-        }}
-      >
-        <p> Finalizar Pagamento</p>
+      <Button onClick={() => {
+        submitPayment(form);
+      }}>
+        <StyledTypography>
+          {'Finalizar Pagamento'}
+        </StyledTypography>
       </Button>
     </>
   );
 }
+
+const StyledTypography = styled(Typography)`
+`;
+
+const Title = styled(Typography)`
+  margin-top: 30px !important;
+  margin-bottom: 10px !important;
+`;
 
 const PaymentFormBox = styled.div`
   display: flex;
@@ -145,15 +173,6 @@ const PaymentFormBox = styled.div`
   width: 650px;
   form {
     margin-left: 18px;
-    h1 {
-      font-family: 'Roboto';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 19px;
-      text-align: start;
-      color: gray;
-    }
   }
   input {
     border: 1px solid #cecece;
@@ -171,15 +190,6 @@ const PaymentFormBox = styled.div`
     color: gray;
   }
 `;
-const Paragraphs = styled.h1`
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 23px;
-
-  margin-bottom: 17px;
-`;
 
 const TicketCard = styled.div`
   display: flex;
@@ -191,22 +201,7 @@ const TicketCard = styled.div`
   border: 1px solid #cecece;
   border-radius: 20px;
   background-color: #ffeed2;
-  padding-top: 35px;
-  margin-right: 24px;
-  margin-bottom: 30px;
-  p {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-    color: #454545;
-    margin-bottom: 8px;
-  }
-  h1 {
-    font-size: 14px;
-  }
+
 `;
 
 const Topbox = styled.div`
@@ -234,13 +229,5 @@ const Button = styled.button`
   width: 182px;
   height: 37px;
   box-shadow: 1px 1px 8px 2px #888888;
-  p {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    text-align: center;
-    color: #000000;
-  }
+
 `;
