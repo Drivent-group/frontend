@@ -9,11 +9,9 @@ export default function OnlineEventSummary({ setSelectedTicket, ticketData }) {
   const token = useToken();
   const [enrollment, setEnrollment] = useState({});
   const info = useEnrollment();
-  console.log(info.enrollmentLoading);
   useEffect(() => {
     if(info.enrollment !== null) {
       setEnrollment(info.enrollment);
-      console.log(enrollment.id, ticketData.id, token);
     }
   }, [info.enrollmentLoading]);
 

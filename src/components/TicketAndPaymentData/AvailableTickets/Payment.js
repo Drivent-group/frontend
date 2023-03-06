@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import AvailableTickets from '.';
 import useTicket from '../../../hooks/api/useTicket';
-import CreditCardComponent from './creditCardPage';
+import CreditCard from './CreditCard';
 
 export default function Payment() {
   const [ticket, setTicket] = useState(false);
@@ -18,8 +18,8 @@ export default function Payment() {
     );
   }
   return (
-    <CreditCardComponent
+    <CreditCard
       ticketData={ticket}
-    ></CreditCardComponent>
+    ></CreditCard>
   );
 }

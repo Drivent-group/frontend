@@ -27,11 +27,7 @@ export default function AvailableTickets() {
       ) : (
         <CreditCardComponent
           ticketData={ticketData}
-          modality={''}
-          hotelChoice={''}
-          finalValue={''}
           userId={'userId'}
-          ticketId={'ticketId'}
         ></CreditCardComponent>
       )}
     </>
