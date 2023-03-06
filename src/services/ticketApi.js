@@ -1,4 +1,3 @@
-import useToken from '../hooks/useToken';
 import api from './api';
 
 export async function saveTicket(enrollmentId, ticketTypeId, token) {
@@ -7,13 +6,13 @@ export async function saveTicket(enrollmentId, ticketTypeId, token) {
     'enrollmentId': enrollmentId,
   };
 
-  const response = await api.post('/tickets', body, {
+  await api.post('/tickets', body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  return response.data;
+  return  window.location.reload();
 }
 
 export async function getAvailableTickets(token) {

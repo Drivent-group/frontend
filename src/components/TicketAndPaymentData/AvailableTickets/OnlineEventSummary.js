@@ -1,11 +1,22 @@
 import { Typography } from '@material-ui/core';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import UserContext, { UserProvider } from '../../../contexts/UserContext';
+import useEnrollment from '../../../hooks/api/useEnrollment';
 import useToken from '../../../hooks/useToken';
 import { saveTicket } from '../../../services/ticketApi';
 
 export default function OnlineEventSummary({ setSelectedTicket, ticketData }) {
-  console.log(ticketData);
+  const token = useToken();
+  const [enrollment, setEnrollment] = useState({});
+  const info = useEnrollment();
+  console.log(info.enrollmentLoading);
+  useEffect(() => {
+    if(info.enrollment !== null) {
+      setEnrollment(info.enrollment);
+      console.log(enrollment.id, ticketData.id, token);
+    }
+  }, [info.enrollmentLoading]);
+
   return (
     <StyledTypography>
       <Sumary>
@@ -14,7 +25,7 @@ export default function OnlineEventSummary({ setSelectedTicket, ticketData }) {
           <Boldspan>{`R$ ${ticketData.price}`}</Boldspan>
           <>{'. Agora é só confirmar:'}</>
         </Sumarytext>
-        <Sumarybutton onClick={() => saveTicket(ticketData.id)}>
+        <Sumarybutton onClick={() => saveTicket(enrollment.id, ticketData.id, token)}>
           <Sumarybuttontext>{'RESERVAR INGRESSO'}</Sumarybuttontext>
         </Sumarybutton>
       </Sumary>

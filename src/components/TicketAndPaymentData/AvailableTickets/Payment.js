@@ -7,12 +7,10 @@ export default function Payment() {
   const [ticket, setTicket] = useState(false);
   const existingTicket = useTicket();
   useEffect(() => {
-    try{
+    if( existingTicket.ticket !== false) {
       setTicket(existingTicket.ticket);
-    }catch (err) {
-      
     }
-  },);
+  }, [existingTicket.ticketLoading]);
 
   if(!ticket) {
     return (
