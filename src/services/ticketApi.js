@@ -7,28 +7,28 @@ export async function getAvailableTickets(token) {
     },
   });
 
-  const ticketTipesWhithoutHotel = [];
-  const ticketTipesWhithHotel = [];
+  const ticketTypesWithoutHotel = [];
+  const ticketTypesWithHotel = [];
 
   for (let i = 0; i < response.data.length; i++) {
     if (!response.data[i].includesHotel) {
-      ticketTipesWhithoutHotel.push(response.data[i]);
-    };
+      ticketTypesWithoutHotel.push(response.data[i]);
+    }
     if (response.data[i].includesHotel) {
-      ticketTipesWhithHotel.push(response.data[i]);
-    };  
+      ticketTypesWithHotel.push(response.data[i]);
+    }
   }
 
-  return { ticketTipesWhithoutHotel, ticketTipesWhithHotel };
+  return { ticketTypesWithoutHotel, ticketTypesWithHotel };
 }
 
 export async function getTicket(token) {
-  const response = await api.get('/tickets', { 
+  const response = await api.get('/tickets', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  
+
   return response.data;
 }
 //
