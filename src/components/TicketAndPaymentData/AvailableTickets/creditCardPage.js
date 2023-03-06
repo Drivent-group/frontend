@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { toast } from 'react-toastify';
@@ -8,7 +8,6 @@ import insertPayment from '../../../hooks/api/usePayment';
 
 export default function CreditCardComponent(props) {
   const { ticketData, ticketId, userId } = props;
-  const [includesHotel, setIncludesHotel] = useState('');
   const [isPayed, setIsPayed] = useState(true);
   const { createPayment } = insertPayment;
   const [form, setForm] = useState({
@@ -17,16 +16,6 @@ export default function CreditCardComponent(props) {
     name: '',
     number: '',
   });
-
-  useEffect(() => {
-    if(ticketData.TicketType.includesHotel === true) { 
-      setIncludesHotel(' + Com Hotel');
-    };
-  
-    if(ticketData.TicketType.isRemote === false && ticketData.TicketType.includesHotel === false) { 
-      setIncludesHotel(' + Sem Hotel');
-    };
-  }, []);
   
   function handleForm(e) {
     setForm({
@@ -81,21 +70,6 @@ export default function CreditCardComponent(props) {
 
   return (
     <>
-      <Title variant="h6" color="textSecondary">
-        {'Ingresso Escolhido'}
-      </Title>
-      
-      <TicketCard>
-        <StyledTypography variant="body1" color="textPrimary">
-          {`${ticketData.TicketType.name}${includesHotel}`}
-        </StyledTypography>
-        <StyledTypography color="textSecondary">
-          {`R$ ${ticketData.TicketType.price}`}
-        </StyledTypography>
-      </TicketCard>
-      <Title variant="h6" color="textSecondary">
-        {'Pagamento'}
-      </Title>
       <PaymentFormBox>
         <Cards
           cvc={form.cvc}
@@ -162,11 +136,6 @@ export default function CreditCardComponent(props) {
 const StyledTypography = styled(Typography)`
 `;
 
-const Title = styled(Typography)`
-  margin-top: 30px !important;
-  margin-bottom: 10px !important;
-`;
-
 const PaymentFormBox = styled.div`
   display: flex;
   padding-right: 50px;
@@ -189,19 +158,6 @@ const PaymentFormBox = styled.div`
     padding-left: 10px;
     color: gray;
   }
-`;
-
-const TicketCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 290px;
-  height: 108px;
-  border: 1px solid #cecece;
-  border-radius: 20px;
-  background-color: #ffeed2;
-
 `;
 
 const Topbox = styled.div`

@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 import AvailableTickets from '.';
 import useTicket from '../../../hooks/api/useTicket';
-import CreditCardComponent from './creditCardPage';
+import CreditCard from './CreditCard';
 
 export default function Payment() {
   const [ticket, setTicket] = useState(false);
   const existingTicket = useTicket();
   useEffect(() => {
-    try{
+    if( existingTicket.ticket !== false) {
       setTicket(existingTicket.ticket);
-    }catch (err) {
-      
     }
-  },);
+  }, [existingTicket.ticketLoading]);
 
   if(!ticket) {
     return (
@@ -20,8 +18,8 @@ export default function Payment() {
     );
   }
   return (
-    <CreditCardComponent
+    <CreditCard
       ticketData={ticket}
-    ></CreditCardComponent>
+    ></CreditCard>
   );
 }

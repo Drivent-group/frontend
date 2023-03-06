@@ -1,7 +1,19 @@
 import { Typography } from '@material-ui/core';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useEnrollment from '../../../hooks/api/useEnrollment';
+import useToken from '../../../hooks/useToken';
+import { saveTicket } from '../../../services/ticketApi';
 
 export default function FaceToFaceEventSummary({ setSelectedTicket, ticketData }) {
+  const token = useToken();
+  const [enrollment, setEnrollment] = useState({});
+  const info = useEnrollment();
+  useEffect(() => {
+    if(info.enrollment !== null) {
+      setEnrollment(info.enrollment);
+    }
+  }, [info.enrollmentLoading]);
   return (
     <StyledTypography>
       <Sumary>
@@ -10,7 +22,7 @@ export default function FaceToFaceEventSummary({ setSelectedTicket, ticketData }
           <Boldspan>{`R$ ${ticketData.price}`}</Boldspan>
           <>{'. Agora é só confirmar:'}</>
         </Sumarytext>
-        <Sumarybutton onClick={() => setSelectedTicket(true)}>
+        <Sumarybutton onClick={() => saveTicket(enrollment?.id, ticketData.id, token)}>
           <Sumarybuttontext>{'RESERVAR INGRESSO'}</Sumarybuttontext>
         </Sumarybutton>
       </Sumary>
