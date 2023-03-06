@@ -5,11 +5,13 @@ import 'react-credit-cards/es/styles-compiled.css';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import insertPayment from '../../../hooks/api/usePayment';
+import useToken from '../../../hooks/useToken';
+import { createPayment } from '../../../services/paymentApi';
 
 export default function CreditCardComponent(props) {
+  const token = useToken();
   const { ticketData, ticketId, userId } = props;
   const [isPayed, setIsPayed] = useState(true);
-  const { createPayment } = insertPayment;
   const [form, setForm] = useState({
     cvc: '',
     expiry: '',
@@ -122,9 +124,7 @@ export default function CreditCardComponent(props) {
           </InnerBox>
         </form>
       </PaymentFormBox>
-      <Button onClick={() => {
-        submitPayment(form);
-      }}>
+      <Button onClick={() => createPayment(ticketData.id, token)}>
         <StyledTypography>
           {'Finalizar Pagamento'}
         </StyledTypography>
