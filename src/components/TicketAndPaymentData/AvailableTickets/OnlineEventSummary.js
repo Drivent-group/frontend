@@ -1,17 +1,17 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 
-export default function Onlineticket() {
+export default function OnlineEventSummary({ setSelectedTicket, ticketData }) {
   return (
     <StyledTypography>
       <Sumary>
         <Sumarytext>
-          <>{'Fechado! O total ficou em '}</><Boldspan>{'R$ 100'}</Boldspan><>{'. Agora é só confirmar:'}</>
+          <>{'Fechado! O total ficou em '}</>
+          <Boldspan>{`R$ ${ticketData.price}`}</Boldspan>
+          <>{'. Agora é só confirmar:'}</>
         </Sumarytext>
-        <Sumarybutton>
-          <Sumarybuttontext>
-            {'RESERVAR INGRESSO'}
-          </Sumarybuttontext>
+        <Sumarybutton onClick={() => setSelectedTicket(true)}>
+          <Sumarybuttontext>{'RESERVAR INGRESSO'}</Sumarybuttontext>
         </Sumarybutton>
       </Sumary>
     </StyledTypography>
@@ -30,7 +30,7 @@ const Sumary = styled.div`
 `;
 
 const Sumarytext = styled.p`
-  color: #8E8E8E;
+  color: #8e8e8e;
   size: 20px;
   margin-bottom: 17px;
 `;
@@ -38,7 +38,7 @@ const Sumarytext = styled.p`
 const Sumarybutton = styled.button`
   width: 180px;
   height: 37px;
-  background: #E0E0E0;
+  background: #e0e0e0;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   border-color: none;

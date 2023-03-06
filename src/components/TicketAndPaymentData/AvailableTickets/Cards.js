@@ -1,46 +1,43 @@
 import { Box, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useAvailableTickets from '../../../hooks/api/useAvailableTickets';
-import { display } from './Display';
+import Card from './Card';
+import FaceToFaceTickets from './FaceToFaceTickets';
+import OnlineEventSummary from './OnlineEventSummary';
 
-function Card({ item, chosen, setChosen }) {
-  const click = () => {
-    if(chosen === null) {
-      setChosen(item);
-    }else if(chosen === item) {
-      setChosen(null);      
-    }else if(chosen !== item && chosen !== null) {
-      setChosen(null);
-      setChosen(item);      
-    };
-  };
-  return (
-    <TicketCard key={item.id} onClick={click} alignitems="center" className={chosen === item ? true : false}>
-      <StyledTypography  alignitems="center" variant="body1" color="textPrimary" align="center">
-        {item.name}
-      </StyledTypography>
-      <StyledTypography alignitems="center" variant="body2" color="textSecondary" align="center">
-        {`R$ ${item.price}`}
-      </StyledTypography>
-    </TicketCard>
-  );
-}
-
-export default function Cards() {
+export default function Cards({ setSelectedTicket, setTicketData }) {
   const [tickets, setTickets] = useState([]);
-  const [chosen, setChosen] = React.useState(null);
-  const cards = useAvailableTickets();
+  const [chosen, setChosen] = useState(null);
+  const [faceToFaceTicketsData, setFaceToFaceTicketsData] = useState([]);
+  const cards = useAvailableTickets({});
 
   useEffect(() => {
-    if(cards.availableTickets) {
-      setTickets(cards.availableTickets.ticketTipesWhithoutHotel);
+    if (cards.availableTickets) {
+      setTickets(cards.availableTickets.ticketTypesWithoutHotel);
     }
   }, [cards.availableTicketsLoading]);
 
+  useEffect(() => {
+    setTicketData(chosen);
+
+    if (cards.availableTickets?.ticketTypesWithHotel) {
+      for (const ticket of cards.availableTickets.ticketTypesWithoutHotel)
+        if (!ticket.isRemote) {
+          setFaceToFaceTicketsData([ticket, ...cards.availableTickets.ticketTypesWithHotel]);
+          break;
+        }
+    }
+  }, [chosen]);
+
+  const display = {
+    true: <OnlineEventSummary setSelectedTicket={setSelectedTicket} ticketData={chosen} />,
+    false: <FaceToFaceTickets setSelectedTicket={setSelectedTicket} ticketsData={faceToFaceTicketsData} />,
+    null: '',
+  };
+
   if (tickets.length === 0) {
-    return(
-      
+    return (
       <Tickets>
         <StyledTypography alignitems="center" variant="body1" color="textSecondary" align="center">
           {'carregando Tickets'}
@@ -48,51 +45,29 @@ export default function Cards() {
       </Tickets>
     );
   } else {
-    return(
+    return (
       <>
-        <Tickets >
-          {tickets.map((item) => (<Card 
-            key={item.id} 
-            item={item}
-            chosen={chosen}
-            setChosen={setChosen}
-          />))}
+        <Tickets>
+          {tickets.map((item) => (
+            <Card key={item.id} item={item} chosen={chosen} setChosen={setChosen} />
+          ))}
         </Tickets>
         {display[chosen?.isRemote]}
       </>
-      
     );
-  };
+  }
 }
 
 const StyledTypography = styled(Typography)`
-line-height: 1 !important;
+  line-height: 1 !important;
 `;
 
 const Tickets = styled(Box)`
   display: flex;
-  justify-content: flexstart;
 
   margin-top: 17px;
 
   .true {
-  background-color: #FFEED2;
+    background-color: #ffeed2;
   }
 `;
-
-const TicketCard = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 145px;
-  height: 145px;
-  left: 341px;
-  top: 323px;
-
-  border: 1px solid #CECECE;
-  border-radius: 20px;
-
-  margin-right: 24px;
-
-`;
-
