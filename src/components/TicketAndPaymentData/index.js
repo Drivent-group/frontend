@@ -1,10 +1,10 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
-import AvailableTickets from './AvailableTickets';
+import Payment from './AvailableTickets/Payment';
 import NoEnrollment from './NoEnrollment';
 
 const display = {
-  true: <AvailableTickets />,
+  true: <Payment />,
   false: <NoEnrollment />,
 };
 
