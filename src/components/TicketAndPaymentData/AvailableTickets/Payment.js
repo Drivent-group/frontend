@@ -7,19 +7,10 @@ export default function Payment() {
   const [ticket, setTicket] = useState(false);
   const existingTicket = useTicket();
   useEffect(() => {
-    if( existingTicket.ticket !== false) {
+    if (existingTicket.ticket !== false) {
       setTicket(existingTicket.ticket);
     }
   }, [existingTicket.ticketLoading]);
 
-  if(!ticket) {
-    return (
-      <AvailableTickets/>
-    );
-  }
-  return (
-    <CreditCard
-      ticketData={ticket}
-    ></CreditCard>
-  );
+  return !ticket ? <AvailableTickets /> : <CreditCard ticketData={ticket}></CreditCard>;
 }

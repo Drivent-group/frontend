@@ -4,9 +4,9 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import insertPayment from '../../../hooks/api/usePayment';
 import useToken from '../../../hooks/useToken';
 import { createPayment } from '../../../services/paymentApi';
+import SummaryButton from './SummaryButton';
 
 export default function CreditCardComponent(props) {
   const token = useToken();
@@ -18,7 +18,7 @@ export default function CreditCardComponent(props) {
     name: '',
     number: '',
   });
-  
+
   function handleForm(e) {
     setForm({
       ...form,
@@ -124,19 +124,15 @@ export default function CreditCardComponent(props) {
           </InnerBox>
         </form>
       </PaymentFormBox>
-      <Button onClick={() => createPayment(ticketData.id, token)}>
-        <StyledTypography>
-          {'Finalizar Pagamento'}
-        </StyledTypography>
-      </Button>
+      <SummaryButton onClick={() => createPayment(ticketData.id, token)}>FINALIZAR PAGAMENTO</SummaryButton>
     </>
   );
 }
 
-const StyledTypography = styled(Typography)`
-`;
+const StyledTypography = styled(Typography)``;
 
 const PaymentFormBox = styled.div`
+  margin-bottom: 50px;
   display: flex;
   padding-right: 50px;
   width: 650px;
@@ -185,5 +181,4 @@ const Button = styled.button`
   width: 182px;
   height: 37px;
   box-shadow: 1px 1px 8px 2px #888888;
-
 `;
