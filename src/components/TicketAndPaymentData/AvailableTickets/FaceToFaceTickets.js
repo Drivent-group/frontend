@@ -1,20 +1,16 @@
 import { Box, Typography } from '@material-ui/core';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Card from './Card';
-import FaceToFaceEventSummary from './FaceToFaceEventSummary';
+import SummaryData from './SummaryData';
 
 function isObject(obj) {
   return obj === Object(obj);
 }
 
-export default function FaceToFaceTickets({ setSelectedTicket, ticketsData, setTicketData }) {
+export default function FaceToFaceTickets({ ticketsData }) {
   const [chosen, setChosen] = useState(null);
-  useEffect(() => {
-    setTicketData(chosen);
-  }, [chosen]);
-  
+
   return (
     <>
       <StyledTypography variant="body1" color="textSecondary">
@@ -25,7 +21,7 @@ export default function FaceToFaceTickets({ setSelectedTicket, ticketsData, setT
           <Card key={item.id} item={item} chosen={chosen} setChosen={setChosen} basicPrice={ticketsData[0]?.price} />
         ))}
       </Tickets>
-      {isObject(chosen) && <FaceToFaceEventSummary setSelectedTicket={setSelectedTicket} ticketData={chosen} />}
+      {isObject(chosen) && <SummaryData ticketData={chosen} />}
     </>
   );
 }

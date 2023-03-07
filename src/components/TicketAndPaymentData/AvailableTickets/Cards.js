@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import useAvailableTickets from '../../../hooks/api/useAvailableTickets';
 import Card from './Card';
 import FaceToFaceTickets from './FaceToFaceTickets';
-import OnlineEventSummary from './OnlineEventSummary';
+import SummaryData from './SummaryData';
 
-export default function Cards({ setSelectedTicket, setTicketData }) {
+export default function Cards() {
   const [tickets, setTickets] = useState([]);
   const [chosen, setChosen] = useState(null);
   const [faceToFaceTicketsData, setFaceToFaceTicketsData] = useState([]);
@@ -19,8 +19,6 @@ export default function Cards({ setSelectedTicket, setTicketData }) {
   }, [cards.availableTicketsLoading]);
 
   useEffect(() => {
-    setTicketData(chosen);
-
     if (cards.availableTickets?.ticketTypesWithHotel) {
       for (const ticket of cards.availableTickets.ticketTypesWithoutHotel)
         if (!ticket.isRemote) {
@@ -31,8 +29,8 @@ export default function Cards({ setSelectedTicket, setTicketData }) {
   }, [chosen]);
 
   const display = {
-    true: <OnlineEventSummary setSelectedTicket={setSelectedTicket} ticketData={chosen} />,
-    false: <FaceToFaceTickets setSelectedTicket={setSelectedTicket} ticketsData={faceToFaceTicketsData} setTicketData={setTicketData} />,
+    true: <SummaryData ticketData={chosen} />,
+    false: <FaceToFaceTickets ticketsData={faceToFaceTicketsData} />,
     null: '',
   };
 
@@ -66,8 +64,4 @@ const Tickets = styled(Box)`
   display: flex;
 
   margin-top: 17px;
-
-  .true {
-    background-color: #ffeed2;
-  }
 `;
