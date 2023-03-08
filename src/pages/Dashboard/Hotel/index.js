@@ -1,9 +1,16 @@
+import HotelData from '../../../components/HotelData';
+import useTicket from '../../../hooks/api/useTicket';
 import styled from 'styled-components';
 import HotelBox from './HotelBox';
 
 export default function Hotel() {
+  const existingTicket = useTicket();
+  function isObject(obj) {  
+    return obj === Object(obj);
+  }
   return(
     <>
+      <HotelData hasEnrollment={isObject(existingTicket.ticket)} />
       <H1>Escolha de hotel e quarto</H1>
       <H2>Primeiro, escolha seu hotel</H2>
       <HotelBox></HotelBox>

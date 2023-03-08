@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components';
 
 export default function Card({ item, chosen, setChosen, basicPrice = 0, clickable = true }) {
   const handleClick = () => {
-    // if (clickable) {
     if (chosen === null) {
       setChosen(item);
     } else if (chosen === item) {
@@ -12,7 +11,6 @@ export default function Card({ item, chosen, setChosen, basicPrice = 0, clickabl
     } else if (chosen !== item && chosen !== null) {
       setChosen(item);
     }
-    // }
   };
   return (
     <TicketCard
