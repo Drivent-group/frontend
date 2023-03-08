@@ -10,7 +10,7 @@ export async function save(body, token) {
   return response.data;
 }
 
-export async function getPersonalInformations(token) {
+export async function getPersonalInformation(token) {
   const response = await api.get('/enrollments', {
     headers: {
       Authorization: `Bearer ${token}`,
