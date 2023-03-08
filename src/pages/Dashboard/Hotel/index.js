@@ -5,9 +5,7 @@ import HotelBox from './HotelBox';
 
 export default function Hotel() {
   const existingTicket = useTicket();
-  function isObject(obj) {  
-    return obj === Object(obj);
-  }
+
   return(
     <>
       <HotelData hasEnrollment={isObject(existingTicket.ticket)} />
@@ -16,6 +14,10 @@ export default function Hotel() {
       <HotelBox></HotelBox>
     </>
   );
+}
+
+function isObject(obj) {  
+  return obj === Object(obj);
 }
 
 const H1 = styled.h1`
