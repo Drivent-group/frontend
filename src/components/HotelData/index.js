@@ -1,6 +1,7 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 import useTicket from '../../hooks/api/useTicket';
+import HotelBox from '../../pages/Dashboard/Hotel/HotelBox';
 import HotelNotIncluded from './HotelNotIncluded';
 import NoPayment from './NoPayment';
 
@@ -28,11 +29,17 @@ export default function HotelData() {
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      TESTE
+      <HotelBox></HotelBox>
     </>
   );
 }
 
 const StyledTypography = styled(Typography)`
-  margin-bottom: 37px !important;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 40px;
+  color: #000000;
+  margin-bottom: 35px;
 `;

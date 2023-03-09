@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export default function HotelBox() {
   return (
     <>
-        
+      <H2>Primeiro, escolha seu hotel</H2>
       <HotelBoxContainer>
         <OuterContainer>
           <InnerContainer>
@@ -82,3 +82,14 @@ border: 1px solid black;
 border-radius: 5px;
 margin-bottom: 10px;
 `;
+
+const H2 = styled.h2`
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 23px;
+color: #8E8E8E;
+margin-bottom: 18px;
+`;
+
