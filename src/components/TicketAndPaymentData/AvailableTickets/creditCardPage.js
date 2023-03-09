@@ -8,10 +8,8 @@ import useToken from '../../../hooks/useToken';
 import { createPayment } from '../../../services/paymentApi';
 import SummaryButton from './SummaryButton';
 
-export default function CreditCardComponent(props) {
+export default function CreditCardComponent({ ticketData }) {
   const token = useToken();
-  const { ticketData, ticketId, userId } = props;
-  const [isPayed, setIsPayed] = useState(true);
   const [form, setForm] = useState({
     cvc: '',
     expiry: '',
@@ -32,6 +30,10 @@ export default function CreditCardComponent(props) {
     const expiryValidation = data.expiry.length < 4 || data.expiry.length > 6;
     const cvcValidation = data.cvc.length < 3;
 
+    let month = data.expiry.substr(0, 2);
+    let year = data.expiry.length === 4? '20' + data.expiry.substr(2, 4): ( data.expiry.includes('/')? data.expiry.substr(3, 6) : data.expiry.substr(2, 6)); 
+    data.expiry = `${month}/${year}`;
+
     if (cardNumberValidation) {
       toast('Digite o número correto do Cartão de Crédito');
       return;
@@ -50,9 +52,9 @@ export default function CreditCardComponent(props) {
     }
 
     const issuer = 'visa';
+    
     const dataToInsert = {
-      userId,
-      ticketId: ticketId,
+      ticketId: ticketData.id,
       cardData: {
         issuer: issuer,
         number: data.number,
@@ -63,8 +65,7 @@ export default function CreditCardComponent(props) {
     };
 
     try {
-      await createPayment(dataToInsert);
-      setIsPayed(true);
+      await createPayment(dataToInsert, token);
     } catch (error) {
       toast('Erro ao processar o pagamento');
     }
@@ -88,18 +89,18 @@ export default function CreditCardComponent(props) {
               name="number"
               placeholder="Card Number"
               onChange={handleForm}
-              value={form.description}
+              value={form.number}
               maxLength="16"
             />
-            <StyledTypography variant="body2" color="textSecondary">
+            <Typography variant="body2" color="textSecondary">
               {'E.g.: 49...,51...,36...,37...'}
-            </StyledTypography>
+            </Typography>
             <input
               type="text"
               name="name"
               placeholder="Name"
               onChange={handleForm}
-              value={form.description}
+              value={form.name}
               width="5px"
             />
           </Topbox>
@@ -107,29 +108,26 @@ export default function CreditCardComponent(props) {
             <ExpiryInput
               type="text"
               name="expiry"
-              maxLength="4"
-              mask="00/00"
+              maxLength="6"
               placeholder="Valid Thru"
               onChange={handleForm}
-              value={form.description}
+              value={form.expiry}
             />
             <CvcInput
               type="cvc"
               name="cvc"
               placeholder="CVC"
-              maxLength="4"
+              maxLength="3"
               onChange={handleForm}
-              value={form.description}
+              value={form.cvc}
             />
           </InnerBox>
         </form>
       </PaymentFormBox>
-      <SummaryButton onClick={() => createPayment(ticketData.id, token)}>FINALIZAR PAGAMENTO</SummaryButton>
+      <SummaryButton onClick={() => submitPayment(form)}>FINALIZAR PAGAMENTO</SummaryButton>
     </>
   );
 }
-
-const StyledTypography = styled(Typography)``;
 
 const PaymentFormBox = styled.div`
   margin-bottom: 50px;
@@ -173,12 +171,4 @@ const ExpiryInput = styled.input`
 `;
 const CvcInput = styled.input`
   width: 30%;
-`;
-const Button = styled.button`
-  background-color: #e5e5e5;
-  border-radius: 6px;
-  margin-top: 35px;
-  width: 182px;
-  height: 37px;
-  box-shadow: 1px 1px 8px 2px #888888;
 `;
