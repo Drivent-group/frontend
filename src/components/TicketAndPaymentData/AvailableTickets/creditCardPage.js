@@ -16,7 +16,7 @@ export default function CreditCardComponent({ ticketData }) {
     name: '',
     number: '',
   });
-  
+
   function handleForm(e) {
     setForm({
       ...form,
