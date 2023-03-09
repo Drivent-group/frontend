@@ -1,6 +1,7 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 import useTicket from '../../hooks/api/useTicket';
+import HotelBox from '../../pages/Dashboard/Hotel/HotelBox';
 import HotelNotIncluded from './HotelNotIncluded';
 import NoPayment from './NoPayment';
 
@@ -28,7 +29,7 @@ export default function HotelData() {
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      TESTE
+      <HotelBox></HotelBox>
     </>
   );
 }
