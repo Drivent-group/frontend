@@ -60,8 +60,8 @@ export default function CreditCardComponent({ ticketData }) {
         number: data.number,
         name: data.name,
         expirationDate: data.expiry,
-        cvv: data.cvc
-      }
+        cvv: data.cvc,
+      },
     };
 
     try {
