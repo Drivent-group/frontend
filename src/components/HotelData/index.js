@@ -35,11 +35,5 @@ export default function HotelData() {
 }
 
 const StyledTypography = styled(Typography)`
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 34px;
-  line-height: 40px;
-  color: #000000;
-  margin-bottom: 35px;
+  margin-bottom: 37px !important;
 `;
