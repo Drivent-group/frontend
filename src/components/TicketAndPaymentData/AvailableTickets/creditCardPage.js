@@ -92,9 +92,9 @@ export default function CreditCardComponent({ ticketData }) {
               value={form.number}
               maxLength="16"
             />
-            <StyledTypography variant="body2" color="textSecondary">
+            <Typography variant="body2" color="textSecondary">
               {'E.g.: 49...,51...,36...,37...'}
-            </StyledTypography>
+            </Typography>
             <input
               type="text"
               name="name"
@@ -128,9 +128,6 @@ export default function CreditCardComponent({ ticketData }) {
     </>
   );
 }
-
-const StyledTypography = styled(Typography)`
-`;
 
 const PaymentFormBox = styled.div`
   margin-bottom: 50px;
