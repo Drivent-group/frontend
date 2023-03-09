@@ -6,19 +6,16 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import useToken from '../../../hooks/useToken';
 import { createPayment } from '../../../services/paymentApi';
-import SummaryButton from './SummaryButton';
 
-export default function CreditCardComponent(props) {
+export default function CreditCardComponent({ ticketData }) {
   const token = useToken();
-  const { ticketData, ticketId, userId } = props;
-  const [isPayed, setIsPayed] = useState(true);
   const [form, setForm] = useState({
     cvc: '',
     expiry: '',
     name: '',
     number: '',
   });
-
+  
   function handleForm(e) {
     setForm({
       ...form,
@@ -31,6 +28,10 @@ export default function CreditCardComponent(props) {
     const nameValidation = data.name.length < 3;
     const expiryValidation = data.expiry.length < 4 || data.expiry.length > 6;
     const cvcValidation = data.cvc.length < 3;
+
+    let month = data.expiry.substr(0, 2);
+    let year = data.expiry.length === 4? '20' + data.expiry.substr(2, 4): ( data.expiry.includes('/')? data.expiry.substr(3, 6) : data.expiry.substr(2, 6)); 
+    data.expiry = `${month}/${year}`;
 
     if (cardNumberValidation) {
       toast('Digite o número correto do Cartão de Crédito');
@@ -50,21 +51,20 @@ export default function CreditCardComponent(props) {
     }
 
     const issuer = 'visa';
+    
     const dataToInsert = {
-      userId,
-      ticketId: ticketId,
+      ticketId: ticketData.id,
       cardData: {
         issuer: issuer,
         number: data.number,
         name: data.name,
         expirationDate: data.expiry,
-        cvv: data.cvc,
-      },
+        cvv: data.cvc
+      }
     };
 
     try {
-      await createPayment(dataToInsert);
-      setIsPayed(true);
+      await createPayment(dataToInsert, token);
     } catch (error) {
       toast('Erro ao processar o pagamento');
     }
@@ -88,7 +88,7 @@ export default function CreditCardComponent(props) {
               name="number"
               placeholder="Card Number"
               onChange={handleForm}
-              value={form.description}
+              value={form.number}
               maxLength="16"
             />
             <StyledTypography variant="body2" color="textSecondary">
@@ -99,7 +99,7 @@ export default function CreditCardComponent(props) {
               name="name"
               placeholder="Name"
               onChange={handleForm}
-              value={form.description}
+              value={form.name}
               width="5px"
             />
           </Topbox>
@@ -107,32 +107,37 @@ export default function CreditCardComponent(props) {
             <ExpiryInput
               type="text"
               name="expiry"
-              maxLength="4"
-              mask="00/00"
+              maxLength="6"
               placeholder="Valid Thru"
               onChange={handleForm}
-              value={form.description}
+              value={form.expiry}
             />
             <CvcInput
               type="cvc"
               name="cvc"
               placeholder="CVC"
-              maxLength="4"
+              maxLength="3"
               onChange={handleForm}
-              value={form.description}
+              value={form.cvc}
             />
           </InnerBox>
         </form>
       </PaymentFormBox>
-      <SummaryButton onClick={() => createPayment(ticketData.id, token)}>FINALIZAR PAGAMENTO</SummaryButton>
+      <Button onClick={() => {
+        submitPayment(form);
+      }}>
+        <StyledTypography>
+          {'Finalizar Pagamento'}
+        </StyledTypography>
+      </Button>
     </>
   );
 }
 
-const StyledTypography = styled(Typography)``;
+const StyledTypography = styled(Typography)`
+`;
 
 const PaymentFormBox = styled.div`
-  margin-bottom: 50px;
   display: flex;
   padding-right: 50px;
   width: 650px;
@@ -181,4 +186,5 @@ const Button = styled.button`
   width: 182px;
   height: 37px;
   box-shadow: 1px 1px 8px 2px #888888;
+
 `;
