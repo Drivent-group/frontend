@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import useToken from '../../../hooks/useToken';
 import { createPayment } from '../../../services/paymentApi';
+import SummaryButton from './SummaryButton';
 
 export default function CreditCardComponent({ ticketData }) {
   const token = useToken();
@@ -123,13 +124,7 @@ export default function CreditCardComponent({ ticketData }) {
           </InnerBox>
         </form>
       </PaymentFormBox>
-      <Button onClick={() => {
-        submitPayment(form);
-      }}>
-        <StyledTypography>
-          {'Finalizar Pagamento'}
-        </StyledTypography>
-      </Button>
+      <SummaryButton onClick={() => submitPayment(form)}>FINALIZAR PAGAMENTO</SummaryButton>
     </>
   );
 }
@@ -138,6 +133,7 @@ const StyledTypography = styled(Typography)`
 `;
 
 const PaymentFormBox = styled.div`
+  margin-bottom: 50px;
   display: flex;
   padding-right: 50px;
   width: 650px;
@@ -178,13 +174,4 @@ const ExpiryInput = styled.input`
 `;
 const CvcInput = styled.input`
   width: 30%;
-`;
-const Button = styled.button`
-  background-color: #e5e5e5;
-  border-radius: 6px;
-  margin-top: 35px;
-  width: 182px;
-  height: 37px;
-  box-shadow: 1px 1px 8px 2px #888888;
-
 `;
