@@ -1,6 +1,12 @@
 import styled from 'styled-components';
+import useHotel from '../../../hooks/api/useHotel';
+import useToken from '../../../hooks/useToken';
 
 export default function HotelBox() {
+  const user = useToken();
+  const data = useHotel(user);
+  //console.log(data.hotel); 
+
   return (
     <>
       <H2>Primeiro, escolha seu hotel</H2>
