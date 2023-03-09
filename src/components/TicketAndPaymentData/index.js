@@ -1,6 +1,12 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
-import { display } from './Display';
+import Payment from './AvailableTickets/Payment';
+import NoEnrollment from './NoEnrollment';
+
+const display = {
+  true: <Payment />,
+  false: <NoEnrollment />,
+};
 
 export default function TicketAndPaymentData({ hasEnrollment }) {
   return (
@@ -12,5 +18,5 @@ export default function TicketAndPaymentData({ hasEnrollment }) {
 }
 
 const StyledTypography = styled(Typography)`
-  margin-bottom: 20px !important;
+  margin-bottom: 37px !important;
 `;

@@ -4,11 +4,18 @@ import Cards from './Cards';
 
 export default function AvailableTickets() {
   return (
-    <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', height: 'calc(100% - 70px)' }}>
-      <StyledTypography variant="body1" color="textSecondary" >
+    <Box
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        height: 'calc(100% - 102px)',
+      }}
+    >
+      <StyledTypography variant="body1" color="textSecondary">
         {'Primeiro, escolha sua modalidade de ingresso'}
       </StyledTypography>
-      <Cards/>
+      <Cards />
     </Box>
   );
 }

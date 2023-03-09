@@ -1,5 +1,20 @@
 import api from './api';
 
+export async function saveTicket(enrollmentId, ticketTypeId, token) {
+  const body = {
+    'ticketTypeId': ticketTypeId,
+    'enrollmentId': enrollmentId,
+  };
+
+  await api.post('/tickets', body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return  window.location.reload();
+}
+
 export async function getAvailableTickets(token) {
   const response = await api.get('/tickets/types', {
     headers: {
@@ -7,12 +22,28 @@ export async function getAvailableTickets(token) {
     },
   });
 
-  const ticketTipes = [];
+  const ticketTypesWithoutHotel = [];
+  const ticketTypesWithHotel = [];
 
-  for (let i = 0; i < 2; i++) {
-    ticketTipes.push(response.data[i]);    
+  for (let i = 0; i < response.data.length; i++) {
+    if (!response.data[i].includesHotel) {
+      ticketTypesWithoutHotel.push(response.data[i]);
+    }
+    if (response.data[i].includesHotel) {
+      ticketTypesWithHotel.push(response.data[i]);
+    }
   }
 
-  return ticketTipes;
+  return { ticketTypesWithoutHotel, ticketTypesWithHotel };
+}
+
+export async function getTicket(token) {
+  const response = await api.get('/tickets', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
 }
 //
