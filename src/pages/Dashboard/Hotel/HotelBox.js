@@ -4,25 +4,34 @@ import useToken from '../../../hooks/useToken';
 
 export default function HotelBox() {
   const user = useToken();
-  const data = useHotel(user);
-  //console.log(data.hotel); 
+  const data = useHotel(user).hotel;
+  console.log(data);
 
   return (
     <>
       <H2>Primeiro, escolha seu hotel</H2>
       <HotelBoxContainer>
-        <OuterContainer>
-          <InnerContainer>
-            {/*    <figure >
-              <img className="hotelFigure" src="" alt="" ></img>
-            </figure> */}
-          </InnerContainer>
-          <GrandLetter>Driven Resort</GrandLetter>
-          <BoldLetter>Tipos de Acomodação:</BoldLetter>
-          <NormalLetter>Single e Double</NormalLetter>
-          <BoldLetter>Vagas Disponíveis:</BoldLetter>
-          <NormalLetter>103</NormalLetter>
-        </OuterContainer>
+        
+        {data.map((hotel) => {
+          return (
+          
+            <OuterContainer>
+
+              <InnerContainer >
+                <figure >
+                  <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
+                </figure>
+              </InnerContainer>
+
+              <GrandLetter>{hotel.name}</GrandLetter>
+              <BoldLetter>Tipos de Acomodação:</BoldLetter>
+              <NormalLetter>Single e Double</NormalLetter>
+              <BoldLetter>Vagas Disponíveis:</BoldLetter>
+              <NormalLetter>103</NormalLetter>
+            </OuterContainer>
+          );
+        })} 
+       
       </HotelBoxContainer>
         
     </>
@@ -60,9 +69,8 @@ margin-bottom: 14px;
 `;
 
 const HotelBoxContainer = styled.div`
-border: 1px solid black;
 display: flex;
-justify-content: row;
+flex-direction: row;
 width: 100%;
 flex-wrap: wrap;
 `;
@@ -87,6 +95,14 @@ margin-right: 20px;
 border: 1px solid black;
 border-radius: 5px;
 margin-bottom: 10px;
+
+img {
+  width: 166px;
+  height: 107px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
 `;
 
 const H2 = styled.h2`
