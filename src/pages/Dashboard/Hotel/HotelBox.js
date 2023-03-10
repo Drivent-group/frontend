@@ -1,72 +1,40 @@
 import styled from 'styled-components';
 import useHotel from '../../../hooks/api/useHotel';
 import useToken from '../../../hooks/useToken';
+import HotelRooms from './HotelRoom';
 
 export default function HotelBox() {
   const user = useToken();
   const data = useHotel(user).hotel;
-  console.log(data);
+
+  if(data) {
+    return (
+      <>
+        <H2>Primeiro, escolha seu hotel</H2>
+        <HotelBoxContainer>
+          {data.map((hotel) => {
+            return (
+              <OuterContainer>
+                <InnerContainer>
+                  <figure >
+                    <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
+                  </figure>
+                </InnerContainer>
+                {/* <HotelRooms id = {hotel.id} user = {user}></HotelRooms> */}
+              </OuterContainer>
+            );
+          })
+          }
+        </HotelBoxContainer>
+      </>
+    );
+  }
 
   return (
     <>
-      <H2>Primeiro, escolha seu hotel</H2>
-      <HotelBoxContainer>
-        
-        {data.map((hotel) => {
-          return (
-          
-            <OuterContainer>
-
-              <InnerContainer >
-                <figure >
-                  <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
-                </figure>
-              </InnerContainer>
-
-              <GrandLetter>{hotel.name}</GrandLetter>
-              <BoldLetter>Tipos de Acomodação:</BoldLetter>
-              <NormalLetter>Single e Double</NormalLetter>
-              <BoldLetter>Vagas Disponíveis:</BoldLetter>
-              <NormalLetter>103</NormalLetter>
-            </OuterContainer>
-          );
-        })} 
-       
-      </HotelBoxContainer>
-        
-    </>
-  );
+      <H2>Carregando Hotéis</H2>
+    </>);
 };
-
-const BoldLetter = styled.h2`
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 14px;
-color: #3C3C3C;
-margin-bottom: 5px;
-`;
-
-const GrandLetter = styled.h1`
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 23px;
-color: #343434;
-margin-bottom: 10px;
-`;
-
-const NormalLetter = styled.h3`
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 14px;
-color: #3C3C3C;
-margin-bottom: 14px;
-`;
 
 const HotelBoxContainer = styled.div`
 display: flex;
