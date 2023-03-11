@@ -20,10 +20,9 @@ export default function HotelBox() {
                     <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
                   </figure>
                 </InnerContainer>
-
-                {/* <HotelRooms id = {hotel.id} user = {user}></HotelRooms> */}
+                <HotelRooms id = {hotel.id} user = {user}></HotelRooms>
               </OuterContainer>
-              
+
             );
           })
           }
