@@ -8,26 +8,26 @@ export default function RoomCards({ booked }) {
   const [chosen, setChosen] = useState(null);
   const rooms = [
     {
-      'id': 13,
+      'id': 1,
       'name': 'Single',
       'capacity': 1,
-      'hotelId': 3,
+      'hotelId': 1,
       'createdAt': '2023-03-08T22:01:54.869Z',
       'updatedAt': '2023-03-08T22:01:54.869Z'
     },
     {
-      'id': 14,
-      'name': 'Doble',
+      'id': 2,
+      'name': 'Double',
       'capacity': 2,
-      'hotelId': 3,
+      'hotelId': 1,
       'createdAt': '2023-03-08T22:01:54.870Z',
       'updatedAt': '2023-03-08T22:01:54.870Z'
     },
     {
-      'id': 15,
+      'id': 3,
       'name': 'Triple',
       'capacity': 3,
-      'hotelId': 3,
+      'hotelId': 1,
       'createdAt': '2023-03-08T22:01:54.871Z',
       'updatedAt': '2023-03-08T22:01:54.872Z'
     }

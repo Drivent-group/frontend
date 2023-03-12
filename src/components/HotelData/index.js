@@ -47,7 +47,7 @@ export default function HotelData() {
     return(
       <>
         <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-        <BookingSummary/>
+        <BookingSummary hotelId = {hotelId}/>
         <ChangeBookingButton booked={booked} booking={booking} setBooked={setBooked}/>
       </>
     );
