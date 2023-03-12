@@ -8,6 +8,7 @@ export default function HotelBox(props) {
   const user = useToken();
   const data = useHotel(user).hotel;
   const { setHotelId, hotelId } = props;
+  
   function chooseHotel(id) {
     if(hotelId === null) {
       setHotelId(id);

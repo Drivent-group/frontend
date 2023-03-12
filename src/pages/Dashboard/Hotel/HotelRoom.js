@@ -2,21 +2,31 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useHotelRooms from '../../../hooks/api/useHotelRooms';
 import { Box, Typography } from '@material-ui/core';
+import useBookingByRoomId from '../../../hooks/api/useBookingByRoomId';
+import useBooking from '../../../hooks/api/useBooking';
 
 export default function HotelRooms(props) {
   const { id, user } = props;
+
   let [capacity, setCapacity] = useState(0);
   const room =  useHotelRooms(user, id).rooms;
+  const booking = useBookingByRoomId(id).booking;
+
   let count=0;
+  let bookingNumber;
   const capacityArray = [];
+
   let single; 
   let double; 
-  let triple; 
-  if(room) {
+  let triple;
+
+  if(room && booking) {
     room.Rooms.forEach(room => {
       count = count + room.capacity;
       capacityArray.push(room.capacity);
     });
+    
+    bookingNumber = booking.length;
   }
 
   function descriptionString(single, double, triple)  {
@@ -35,14 +45,13 @@ export default function HotelRooms(props) {
     if(single && !double && !triple) {
       return('Single');
     }
-
-    return 'au';
   }
 
   useEffect(() => {
-    setCapacity(count);
+    setCapacity(count - bookingNumber);
   }, [room]);
-  if(room) {
+
+  if(room && booking) {
     return (
       <>
         <GrandLetter variant='h6'>{room.name}</GrandLetter>
