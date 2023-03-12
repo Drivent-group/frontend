@@ -19,16 +19,25 @@ export async function getBookingByRoomId(token, roomId) {
 }
 
 export async function saveBooking(userId, roomId, token) {
+  const booked = await getBooking(token);
   const body = {
     'userId': userId,
     'roomId': roomId,
   };
 
-  await api.post('/booking', body, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  if (!booked) {
+    await api.post('/booking', body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }else{
+    await api.put(`/booking/${booked.id}`, body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }  
 
   return  window.location.reload();
 }

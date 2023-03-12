@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export default function ChangeBookingButton() {
+export default function ChangeBookingButton({ booked, booking, setBooked }) {
   return (
-    <StyledButton>
+    <StyledButton onClick={() => {setBooked(booking);}}>
       <StyledButtonText>TROCAR DE QUARTO</StyledButtonText>
     </StyledButton>
   );

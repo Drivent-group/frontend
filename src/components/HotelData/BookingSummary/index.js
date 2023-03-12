@@ -1,12 +1,10 @@
 import { styled, Typography } from '@material-ui/core';
-import ChangeBookingButton from './ChangeBookingButton';
 
 export default function BookingSummary() {
   return(
     <>
       <StyledTypography color={'textSecondary'}>Você já escolheu seu quarto:</StyledTypography>
       {/* CARD DO IGOR */}
-      <ChangeBookingButton/>
     </>
   );
 }
