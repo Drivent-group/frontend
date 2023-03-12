@@ -3,9 +3,14 @@ import useHotel from '../../../hooks/api/useHotel';
 import useToken from '../../../hooks/useToken';
 import HotelRooms from './HotelRoom';
 
-export default function HotelBox() {
+export default function HotelBox(props) {
   const user = useToken();
   const data = useHotel(user).hotel;
+  const { setHotelId } = props;
+
+  function chooseHotel(hotelId) {
+    setHotelId(hotelId);
+  }
 
   if(data) {
     return (
@@ -14,7 +19,7 @@ export default function HotelBox() {
         <HotelBoxContainer>
           {data.map((hotel) => {
             return (
-              <OuterContainer key={hotel.id}>
+              <OuterContainer onClick={chooseHotel(hotel.id)} key={hotel.id}>
                 <InnerContainer>
                   <figure >
                     <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
