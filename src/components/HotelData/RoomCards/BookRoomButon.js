@@ -18,11 +18,11 @@ export default function BookRoomButon({ roomData, booked }) {
   const display = {
     true: 
       <StyledButton onClick={() => updateBooking(enrollment?.userId, roomData.id, booked?.id, token)}>
-        <StyledButtonText>{'RESERVAR QUARTO 1'}</StyledButtonText>
+        <StyledButtonText>{'RESERVAR QUARTO'}</StyledButtonText>
       </StyledButton>,
     false: 
       <StyledButton onClick={() => saveBooking(enrollment?.userId, roomData.id, token)}>
-        <StyledButtonText>{'RESERVAR QUARTO 2'}</StyledButtonText>
+        <StyledButtonText>{'RESERVAR QUARTO'}</StyledButtonText>
       </StyledButton>,
   };
 

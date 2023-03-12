@@ -54,7 +54,7 @@ export default function HotelData() {
 
   return (
     <>
-      <StyledTypography variant="h4">Escolha de hotel e quarto 2</StyledTypography>
+      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       <HotelBox/>
       <RoomCards booked={booked}/>
     </>
