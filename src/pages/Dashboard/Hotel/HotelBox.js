@@ -14,7 +14,7 @@ export default function HotelBox() {
         <HotelBoxContainer>
           {data.map((hotel) => {
             return (
-              <OuterContainer>
+              <OuterContainer key={hotel.id}>
                 <InnerContainer>
                   <figure >
                     <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
