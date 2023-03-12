@@ -19,7 +19,7 @@ export default function HotelBox(props) {
         <HotelBoxContainer>
           {data.map((hotel) => {
             return (
-              <OuterContainer onClick={chooseHotel(hotel.id)} key={hotel.id}>
+              <OuterContainer onClick={() => chooseHotel(hotel.id)} key={hotel.id}>
                 <InnerContainer>
                   <figure >
                     <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
