@@ -11,7 +11,7 @@ import NoPayment from './NoPayment';
 import RoomCards from './RoomCards';
 
 export default function HotelData() {
-  const [booked, setBooked] = useState(null);
+  const [booked, setBooked] = useState(false);
   const { ticket } = useTicket();
   const { booking } = useBooking();
 
@@ -39,7 +39,7 @@ export default function HotelData() {
         <>
           <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
           <HotelBox/>
-          <RoomCards/>
+          <RoomCards booked={booked}/>
         </>
       );
     }
@@ -54,9 +54,9 @@ export default function HotelData() {
 
   return (
     <>
-      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
+      <StyledTypography variant="h4">Escolha de hotel e quarto 2</StyledTypography>
       <HotelBox/>
-      <RoomCards/>
+      <RoomCards booked={booked}/>
     </>
   );
 }
