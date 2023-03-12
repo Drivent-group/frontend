@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useToken from '../../../hooks/useToken';
-import { saveBooking } from '../../../services/bookingApi';
+import { saveBooking, updateBooking } from '../../../services/bookingApi';
 
-export default function BookRoomButon({ roomData }) {
+export default function BookRoomButon({ roomData, booked }) {
   const token = useToken();
   const [enrollment, setEnrollment] = useState(null);
   const info = useEnrollment();
@@ -15,10 +15,21 @@ export default function BookRoomButon({ roomData }) {
     }
   }, [info.enrollmentLoading]);
 
+  const display = {
+    true: 
+      <StyledButton onClick={() => updateBooking(enrollment?.userId, roomData.id, booked?.id, token)}>
+        <StyledButtonText>{'RESERVAR QUARTO'}</StyledButtonText>
+      </StyledButton>,
+    false: 
+      <StyledButton onClick={() => saveBooking(enrollment?.userId, roomData.id, token)}>
+        <StyledButtonText>{'RESERVAR QUARTO'}</StyledButtonText>
+      </StyledButton>,
+  };
+
   return (
-    <StyledButton onClick={() => saveBooking(enrollment?.userId, roomData.id, token)}>
-      <StyledButtonText>{'RESERVAR QUARTO'}</StyledButtonText>
-    </StyledButton>
+    <>
+      {display[booked !== false]}
+    </>
   );
 }
 

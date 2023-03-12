@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import RoomCard from './RoomCard';
 import BookRoomButon from './BookRoomButon';
 
-export default function Cards() {
+export default function RoomCards({ booked }) {
   const [chosen, setChosen] = useState(null);
   const rooms = [
     {
@@ -34,7 +34,7 @@ export default function Cards() {
   ];
 
   const display = {
-    true: <BookRoomButon roomData={chosen} />,
+    true: <BookRoomButon roomData={chosen}  booked={booked}/>,
     null: '',
   };
 
@@ -51,7 +51,7 @@ export default function Cards() {
       <>
         <Rooms>
           {rooms.map((item) => (
-            <RoomCard key={item.id} item={item} chosen={chosen} setChosen={setChosen} />
+            <RoomCard key={item.id} item={item} chosen={chosen} setChosen={setChosen}/>
           ))}
         </Rooms>
         {display[chosen !== null]}
