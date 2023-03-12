@@ -1,29 +1,52 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useHotelRooms from '../../../hooks/api/useHotelRooms';
 
-export default async function HotelRooms(props) {
-  /* const { id, user } = props;
-  const room =  useHotelRooms(user, id);
- */
-  /* console.log(room); */
+export default function HotelRooms(props) {
+  const { id, user } = props;
+  let [capacity, setCapacity] = useState(0);
+  const room =  useHotelRooms(user, id).rooms;
+  let count=0;
 
-  /* if (room) {
+  if(room) {
+    room.Rooms.forEach(room => {
+      count = count + room.capacity;
+    });
+  }
+  useEffect(() => {
+    setCapacity(count);
+  }, [room]);
+
+  if(room) {
     return (
       <>
         <GrandLetter>{room.name}</GrandLetter>
         <BoldLetter>Tipos de Acomodação:</BoldLetter>
         <NormalLetter>
-          {rooms.Rooms.map((room) => {
+          {room.Rooms.map((room) => {
+            count = count+ room.capacity;
+            if(room.name ==='Single') {
+              return(
+                `${room.name}, ` 
+              );
+            }
+            if(room.name ==='Double') {
+              return(
+                `${room.name}` 
+              );
+            }
             return(
-              `${room.name}, ` 
+              ` e ${room.name}` 
             );
           })}
         </NormalLetter>
         <BoldLetter>Vagas Disponíveis:</BoldLetter>
-        <NormalLetter>103</NormalLetter>
+        <NormalLetter>
+          {capacity/2}
+        </NormalLetter>
       </>
     );
-  } */
+  }
   return(
     <BoldLetter>Carregando quartos</BoldLetter>
   );

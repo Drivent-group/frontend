@@ -20,8 +20,9 @@ export default function HotelBox() {
                     <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
                   </figure>
                 </InnerContainer>
-                {/* <HotelRooms id = {hotel.id} user = {user}></HotelRooms> */}
+                <HotelRooms id = {hotel.id} user = {user}></HotelRooms>
               </OuterContainer>
+
             );
           })
           }
@@ -37,9 +38,8 @@ export default function HotelBox() {
 };
 
 const HotelBoxContainer = styled.div`
-border: 1px solid black;
 display: flex;
-justify-content: row;
+flex-direction: row;
 width: 100%;
 flex-wrap: wrap;
 `;
@@ -68,8 +68,8 @@ margin-bottom: 10px;
 img {
   width: 166px;
   height: 107px;
+  overflow: hidden;
   border-radius: 5px;
-
 }
 
 `;
