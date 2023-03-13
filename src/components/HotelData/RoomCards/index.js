@@ -3,10 +3,15 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import RoomCard from './RoomCard';
 import BookRoomButon from './BookRoomButon';
+import useHotelRooms from '../../../hooks/api/useHotelRooms';
+import useToken from '../../../hooks/useToken';
 
-export default function RoomCards({ booked }) {
+export default function RoomCards({ booked, hotelId }) {
   const [chosen, setChosen] = useState(null);
-  const rooms = [
+  const token = useToken();
+  const rooms = useHotelRooms(token, hotelId).rooms?.Rooms;
+  
+  /*const rooms = [
     {
       'id': 13,
       'name': 'Single',
@@ -31,14 +36,14 @@ export default function RoomCards({ booked }) {
       'createdAt': '2023-03-08T22:01:54.871Z',
       'updatedAt': '2023-03-08T22:01:54.872Z'
     }
-  ];
+  ];*/
 
   const display = {
     true: <BookRoomButon roomData={chosen}  booked={booked}/>,
     null: '',
   };
 
-  if (rooms.length === 0) {
+  if (rooms?.length === 0) {
     return (
       <Rooms>
         <StyledTypography alignitems="center" variant="body1" color="textSecondary" align="center">
@@ -50,7 +55,7 @@ export default function RoomCards({ booked }) {
     return (
       <>
         <Rooms>
-          {rooms.map((item) => (
+          {rooms?.map((item) => (
             <RoomCard key={item.id} item={item} chosen={chosen} setChosen={setChosen}/>
           ))}
         </Rooms>
