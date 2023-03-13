@@ -56,7 +56,13 @@ export default function HotelData() {
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
-      <RoomCards booked={booked} hotelId = {hotelId}/>
+      {
+        hotelId? 
+          <>
+            <Title variant="h6" color="textSecondary">Ótima pedida! Agora escolha seu quarto:</Title>
+            <RoomCards booked={booked} hotelId = {hotelId}/>
+          </> : null
+      }
     </>
   );
 }
@@ -64,4 +70,9 @@ export default function HotelData() {
 const StyledTypography = styled(Typography)`
   margin-bottom: 37px !important;
  
+`;
+
+const Title = styled(Typography)`
+  margin-top: 25px !important;
+  margin-bottom: 10px !important;
 `;
