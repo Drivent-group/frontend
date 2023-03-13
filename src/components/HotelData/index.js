@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import useBooking from '../../hooks/api/useBooking';
 import useTicket from '../../hooks/api/useTicket';
@@ -15,7 +15,6 @@ export default function HotelData() {
   const { ticket } = useTicket();
   const { booking } = useBooking();
   const [hotelId, setHotelId] = useState(null);
-
   const display = {
     true: <>
       <Title variant="h6" color="textSecondary">Ótima pedida! Agora escolha seu quarto:</Title>
@@ -23,8 +22,7 @@ export default function HotelData() {
     false: ''
   };
 
-
-   if (!ticket || ticket.status !== 'PAID') {
+  if (!ticket || ticket.status !== 'PAID') {
     return (
       <>
         <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
@@ -48,7 +46,8 @@ export default function HotelData() {
         <>
           <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
           <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
-          
+          {display[!!hotelId]}
+
         </>
       );
     }
@@ -65,14 +64,7 @@ export default function HotelData() {
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
-      {/* {
-
-        hotelId? 
-          <>
-            <Title variant="h6" color="textSecondary">Ótima pedida! Agora escolha seu quarto:</Title>
-            <RoomCards booked={booked} hotelId = {hotelId} />
-          </> : null
-      } */}
+      
       {display[!!hotelId]}
 
     </>
