@@ -32,7 +32,7 @@ export default function HotelData() {
       </>
     );
   }
-
+  /* 
   if (booking !== null) {
     if(booking === booked) {
       return (
@@ -51,7 +51,7 @@ export default function HotelData() {
       </>
     );
   }
-
+ */
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
