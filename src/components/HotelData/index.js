@@ -51,10 +51,11 @@ export default function HotelData() {
         </>
       );
     }
+
     return(
       <>
         <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-        <BookingSummary/>
+        <BookingSummary booking = {booking}/>
         <ChangeBookingButton booked={booked} booking={booking} setBooked={setBooked}/>
       </>
     );
