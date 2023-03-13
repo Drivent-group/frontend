@@ -10,12 +10,7 @@ export default function HotelBox(props) {
   const { setHotelId, hotelId } = props;
   
   function chooseHotel(id) {
-    if(hotelId === null) {
-      setHotelId(id);
-    }
-    if(hotelId !== null) {
-      setHotelId(null);
-    }
+    setHotelId(id);
   }
 
   if(data) {
