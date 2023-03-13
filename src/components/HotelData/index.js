@@ -47,14 +47,14 @@ export default function HotelData() {
           <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
           <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
           {display[!!hotelId]}
-
         </>
       );
     }
+
     return(
       <>
         <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-        <BookingSummary/>
+        <BookingSummary booking = {booking}/>
         <ChangeBookingButton booked={booked} booking={booking} setBooked={setBooked}/>
       </>
     );
@@ -64,7 +64,6 @@ export default function HotelData() {
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
-      
       {display[!!hotelId]}
 
     </>
