@@ -66,7 +66,7 @@ export default function HotelRooms(props) {
         <GrandLetter variant='h6'>{hotel.name}</GrandLetter>
 
         <BoldLetter variant='subtitle' > Tipos de acomodação:</BoldLetter>
-        {descriptionString(single, double, triple)}        
+        {descriptionString()}        
         <BoldLetter variant='subtitle'>Vagas disponíveis:</BoldLetter>
         <NormalLetter variant='subtitle'>
           {capacity}
