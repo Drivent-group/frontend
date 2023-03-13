@@ -1,26 +1,27 @@
-import styled from 'styled-components';
+import { Box, Typography } from '@material-ui/core';
 import useHotel from '../../../hooks/api/useHotel';
 import useToken from '../../../hooks/useToken';
 import HotelRooms from './HotelRoom';
+import styled, { css } from 'styled-components';
 
 export default function HotelBox(props) {
   const user = useToken();
   const data = useHotel(user).hotel;
-  const { setHotelId } = props;
-
-  function chooseHotel(hotelId) {
-    setHotelId(hotelId);
+  const { setHotelId, hotelId } = props;
+  
+  function chooseHotel(id) {
+    setHotelId(id);
   }
 
   if(data) {
     return (
       <>
-        <H2>Primeiro, escolha seu hotel</H2>
+        <Title variant="h6" color="textSecondary" >Primeiro, escolha seu hotel</Title>
         <HotelBoxContainer>
           {data.map((hotel) => {
             return (
-              <OuterContainer onClick={() => chooseHotel(hotel.id)} key={hotel.id}>
-                <InnerContainer>
+              <OuterContainer onClick={() => chooseHotel(hotel.id)} key={hotel.id} className={hotelId === hotel.id ? true : false}>
+                <InnerContainer variant='h6'>
                   <figure >
                     <img className="hotelFigure" src={hotel.image} alt={hotel.name} ></img>
                   </figure>
@@ -42,17 +43,17 @@ export default function HotelBox(props) {
     </>);
 };
 
-const HotelBoxContainer = styled.div`
+const HotelBoxContainer = styled(Box)`
 display: flex;
 flex-direction: row;
 width: 100%;
 flex-wrap: wrap;
 `;
 
-const OuterContainer = styled.div`
+const OuterContainer = styled(Box)`
 width: 196px;
 height: 264px;
-background-color: #E5E5E5;
+${({ className }) => className? 'background-color: #ffeed2': 'background-color: #EBEBEB'};
 border-radius: 8px;
 margin-right: 20px;
 padding-left: 15px;
@@ -61,12 +62,11 @@ padding-right: 15px;
 margin-bottom: 15px;
 `;
 
-const InnerContainer = styled.div`
+const InnerContainer = styled(Typography)`
 width: 168px;
 height: 109px;
 background-color: #E5E5E5;
 margin-right: 20px;
-border: 1px solid black;
 border-radius: 5px;
 margin-bottom: 10px;
 
@@ -89,3 +89,7 @@ color: #8E8E8E;
 margin-bottom: 18px;
 `;
 
+const Title = styled(Typography)`
+  margin-top: 25px !important;
+  margin-bottom: 10px !important;
+`;
