@@ -1,47 +1,26 @@
 import { Box, Typography } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RoomCard from './RoomCard';
 import BookRoomButon from './BookRoomButon';
 import useHotelRooms from '../../../hooks/api/useHotelRooms';
 import useToken from '../../../hooks/useToken';
+import { getHotelRooms } from '../../../services/roomApi';
 
 export default function RoomCards({ booked, hotelId }) {
   const [chosen, setChosen] = useState(null);
   const token = useToken();
-  const rooms = useHotelRooms(token, hotelId).rooms?.Rooms;
-  
-  /*const rooms = [
-    {
-      'id': 13,
-      'name': 'Single',
-      'capacity': 1,
-      'hotelId': 3,
-      'createdAt': '2023-03-08T22:01:54.869Z',
-      'updatedAt': '2023-03-08T22:01:54.869Z'
-    },
-    {
-      'id': 14,
-      'name': 'Doble',
-      'capacity': 2,
-      'hotelId': 3,
-      'createdAt': '2023-03-08T22:01:54.870Z',
-      'updatedAt': '2023-03-08T22:01:54.870Z'
-    },
-    {
-      'id': 15,
-      'name': 'Triple',
-      'capacity': 3,
-      'hotelId': 3,
-      'createdAt': '2023-03-08T22:01:54.871Z',
-      'updatedAt': '2023-03-08T22:01:54.872Z'
-    }
-  ];*/
+  const [rooms, setRooms] = useState([]);
 
   const display = {
     true: <BookRoomButon roomData={chosen}  booked={booked}/>,
     null: '',
   };
+
+  useEffect(async() => {
+    const newRooms = await getHotelRooms(token, hotelId);
+    setRooms(newRooms.Rooms);
+  }, [hotelId]);
 
   if (rooms?.length === 0) {
     return (
