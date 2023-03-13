@@ -15,11 +15,7 @@ export default function HotelRooms(props) {
   let count=0;
   let bookingNumber;
   const capacityArray = [];
-
-  let single; 
-  let double; 
-  let triple;
-
+  
   if(hotel && booking) {
     hotel.Rooms.forEach(room => {
       count = count + room.capacity;
@@ -29,10 +25,10 @@ export default function HotelRooms(props) {
     bookingNumber = booking.length;
   }
 
-  function descriptionString(single, double, triple)  {
-    single = capacityArray.includes(1);
-    double = capacityArray.includes(2);
-    triple = capacityArray.includes(3);
+  function descriptionString()  {
+    let single = capacityArray.includes(1);
+    let double = capacityArray.includes(2);
+    let triple = capacityArray.includes(3);
     
     if(single && double && triple) {
       return(<NormalLetter variant='subtitle'>Single, Double e Triple</NormalLetter>);
@@ -43,6 +39,14 @@ export default function HotelRooms(props) {
     }
 
     if(single && !double && !triple) {
+      return(<NormalLetter variant='subtitle'>Single</NormalLetter>);
+    }
+
+    if(!single && double && !triple) {
+      return(<NormalLetter variant='subtitle'>Double</NormalLetter>);
+    }
+
+    if(!single && !double && triple) {
       return(<NormalLetter variant='subtitle'>Single</NormalLetter>);
     }
   }
@@ -56,7 +60,7 @@ export default function HotelRooms(props) {
       <>
         <GrandLetter variant='h6'>{hotel.name}</GrandLetter>
         <BoldLetter variant='subtitle' > Tipos de Acomodação:</BoldLetter>
-        {descriptionString(single, double, triple)}        
+        {descriptionString()}        
         <BoldLetter variant='subtitle'>Vagas Disponíveis:</BoldLetter>
         <NormalLetter>
           {capacity}
