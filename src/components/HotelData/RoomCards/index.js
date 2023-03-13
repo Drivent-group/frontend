@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RoomCard from './RoomCard';
 import BookRoomButon from './BookRoomButon';
-import useHotelRooms from '../../../hooks/api/useHotelRooms';
 import useToken from '../../../hooks/useToken';
 import { getHotelRooms } from '../../../services/roomApi';
 
