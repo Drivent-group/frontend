@@ -6,21 +6,50 @@ import useBooking from '../../../hooks/api/useBooking';
 import useHotel from '../../../hooks/api/useHotel';
 import useToken from '../../../hooks/useToken';
 import useHotelRooms from '../../../hooks/api/useHotelRooms';
+import { set } from 'date-fns';
 
-export default function HotelIncluded({ hotelId }) {
+export default function HotelIncluded({ booking }) {
   const [data, setData] = useState(null);
-  const user = useToken(); 
+  const [amount, setAmount] = useState(null);
+  const user = useToken();
+  const hotelId = booking.Room.hotelId;
+  console.log(booking);
   const hotel = useHotelRooms(user, hotelId);
-  console.log(hotelId);
 
   useEffect(() => {
-    if(hotel.RoomsLoading === false) {
-      setData(hotel.rooms);  
+    if (hotel.RoomsLoading === false) {
+      setData(hotel.rooms);
+      if (booking.Room.capacity === 1) {
+        setAmount('Single');
+      } else if (booking.Room.capacity === 2) {
+        setAmount('Double');
+      } else if (booking.Room.capacity === 3) {
+        setAmount('Triple');
+      };
     }
   }, [hotel.RoomsLoading]);
 
   return (
-    data ?
+    data ? <>
+      <HotelBoxContainer>
+        <OuterContainer>
+          <InnerContainer>
+            <figure >
+              <img className="hotelFigure" src={data.image} alt={'Hotel Image'} ></img>
+            </figure>
+          </InnerContainer>
+          <StyledTypography variant="body1">
+            <ContainerTextArea>
+              <ContainerText>{data.name}</ContainerText>
+              <Roominfos>{'Quarto reservado'}</Roominfos>
+              <Roominfossubtext>{booking.Room.name + ' ' + '(' + amount + ')'}</Roominfossubtext>
+              <Roominfos>{'Pessoas no seu quarto'}</Roominfos>
+              <Roominfossubtext>{booking.Room.capacity}</Roominfossubtext>
+            </ContainerTextArea>
+          </StyledTypography>
+        </OuterContainer>
+      </HotelBoxContainer>
+    </> :
       <>
         <HotelBoxContainer>
           <OuterContainer>
@@ -31,30 +60,11 @@ export default function HotelIncluded({ hotelId }) {
             </InnerContainer>
             <StyledTypography variant="body1">
               <ContainerTextArea>
-                <ContainerText>{'Driven Resort'}</ContainerText>
+                <ContainerText>{''}</ContainerText>
                 <Roominfos>{'Quarto reservado'}</Roominfos>
-                <Roominfossubtext>{'10444 (Double)'}</Roominfossubtext>
+                <Roominfossubtext>{'000 (Single)'}</Roominfossubtext>
                 <Roominfos>{'Pessoas no seu quarto'}</Roominfos>
-                <Roominfossubtext>{'2'}</Roominfossubtext>
-              </ContainerTextArea>
-            </StyledTypography>
-          </OuterContainer>
-        </HotelBoxContainer>
-      </> : <>
-        <HotelBoxContainer>
-          <OuterContainer>
-            <InnerContainer>
-              <figure >
-                <img className="hotelFigure" src={'https://pix10.agoda.net/hotelImages/124/1246280/1246280_16061017110043391702.jpg?ca=6&ce=1&s=1024x768'} alt={'hotel'} ></img>
-              </figure>
-            </InnerContainer>
-            <StyledTypography variant="body1">
-              <ContainerTextArea>
-                <ContainerText>{'Driven Resort'}</ContainerText>
-                <Roominfos>{'Quarto reservado'}</Roominfos>
-                <Roominfossubtext>{'10333 (Double)'}</Roominfossubtext>
-                <Roominfos>{'Pessoas no seu quarto'}</Roominfos>
-                <Roominfossubtext>{'2'}</Roominfossubtext>
+                <Roominfossubtext>{'0'}</Roominfossubtext>
               </ContainerTextArea>
             </StyledTypography>
           </OuterContainer>

@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useBooking from '../../hooks/api/useBooking';
 import useTicket from '../../hooks/api/useTicket';
@@ -15,6 +15,14 @@ export default function HotelData() {
   const { ticket } = useTicket();
   const { booking } = useBooking();
   const [hotelId, setHotelId] = useState(null);
+
+  const display = {
+    true: <>
+      <Title variant="h6" color="textSecondary">Ótima pedida! Agora escolha seu quarto:</Title>
+      <RoomCards booked={booked} hotelId = {hotelId} /></>,
+    false: ''
+  };
+
   if (!ticket || ticket.status !== 'PAID') {
     return (
       <>
@@ -32,31 +40,40 @@ export default function HotelData() {
       </>
     );
   }
-  /* 
+  
   if (booking !== null) {
     if(booking === booked) {
       return (
         <>
           <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-          <HotelBox/>
-          <RoomCards booked={booked}/>
+          <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
         </>
       );
     }
+
     return(
       <>
         <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-        <BookingSummary hotelId = {hotelId}/>
+        <BookingSummary booking = {booking}/>
         <ChangeBookingButton booked={booked} booking={booking} setBooked={setBooked}/>
       </>
     );
   }
- */
+
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
-      <RoomCards booked={booked} hotelId = {hotelId}/>
+      {/* {
+
+        hotelId? 
+          <>
+            <Title variant="h6" color="textSecondary">Ótima pedida! Agora escolha seu quarto:</Title>
+            <RoomCards booked={booked} hotelId = {hotelId} />
+          </> : null
+      } */}
+      {display[!!hotelId]}
+
     </>
   );
 }
@@ -64,4 +81,9 @@ export default function HotelData() {
 const StyledTypography = styled(Typography)`
   margin-bottom: 37px !important;
  
+`;
+
+const Title = styled(Typography)`
+  margin-top: 25px !important;
+  margin-bottom: 10px !important;
 `;

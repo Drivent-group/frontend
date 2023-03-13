@@ -1,44 +1,28 @@
 import { Box, Typography } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RoomCard from './RoomCard';
 import BookRoomButon from './BookRoomButon';
+import useHotelRooms from '../../../hooks/api/useHotelRooms';
+import useToken from '../../../hooks/useToken';
+import { getHotelRooms } from '../../../services/roomApi';
 
-export default function RoomCards({ booked }) {
+export default function RoomCards({ booked, hotelId }) {
   const [chosen, setChosen] = useState(null);
-  const rooms = [
-    {
-      'id': 1,
-      'name': 'Single',
-      'capacity': 1,
-      'hotelId': 1,
-      'createdAt': '2023-03-08T22:01:54.869Z',
-      'updatedAt': '2023-03-08T22:01:54.869Z'
-    },
-    {
-      'id': 2,
-      'name': 'Double',
-      'capacity': 2,
-      'hotelId': 1,
-      'createdAt': '2023-03-08T22:01:54.870Z',
-      'updatedAt': '2023-03-08T22:01:54.870Z'
-    },
-    {
-      'id': 3,
-      'name': 'Triple',
-      'capacity': 3,
-      'hotelId': 1,
-      'createdAt': '2023-03-08T22:01:54.871Z',
-      'updatedAt': '2023-03-08T22:01:54.872Z'
-    }
-  ];
+  const token = useToken();
+  const [rooms, setRooms] = useState([]);
 
   const display = {
     true: <BookRoomButon roomData={chosen}  booked={booked}/>,
     null: '',
   };
 
-  if (rooms.length === 0) {
+  useEffect(async() => {
+    const newRooms = await getHotelRooms(token, hotelId);
+    setRooms(newRooms.Rooms);
+  }, [hotelId]);
+
+  if (rooms?.length === 0) {
     return (
       <Rooms>
         <StyledTypography alignitems="center" variant="body1" color="textSecondary" align="center">
@@ -50,7 +34,7 @@ export default function RoomCards({ booked }) {
     return (
       <>
         <Rooms>
-          {rooms.map((item) => (
+          {rooms?.map((item) => (
             <RoomCard key={item.id} item={item} chosen={chosen} setChosen={setChosen}/>
           ))}
         </Rooms>

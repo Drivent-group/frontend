@@ -8,9 +8,15 @@ export default function HotelBox(props) {
   const user = useToken();
   const data = useHotel(user).hotel;
   const { setHotelId, hotelId } = props;
-  
+
   function chooseHotel(id) {
-    setHotelId(id);
+    if (hotelId === null) {
+      setHotelId(id);
+    } else if (hotelId === id) {
+      setHotelId(null);
+    } else if (hotelId !== id && hotelId !== null) {
+      setHotelId(id);
+    }
   }
 
   if(data) {
@@ -51,6 +57,8 @@ flex-wrap: wrap;
 `;
 
 const OuterContainer = styled(Box)`
+display: flex;
+flex-direction: column;
 width: 196px;
 height: 264px;
 ${({ className }) => className? 'background-color: #ffeed2': 'background-color: #EBEBEB'};

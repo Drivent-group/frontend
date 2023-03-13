@@ -1,11 +1,11 @@
 import { styled, Typography } from '@material-ui/core';
 import HotelIncluded from './HotelIncluded';
 
-export default function BookingSummary({ hotelId }) {
+export default function BookingSummary({ booking }) {
   return(
     <>
       <StyledTypography color={'textSecondary'}>Você já escolheu seu quarto:</StyledTypography>
-      <HotelIncluded hotelId = {hotelId}/>
+      <HotelIncluded booking = {booking}/>
     </>
   );
 }
