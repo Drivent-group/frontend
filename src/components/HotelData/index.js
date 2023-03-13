@@ -15,6 +15,8 @@ export default function HotelData() {
   const { ticket } = useTicket();
   const { booking } = useBooking();
   const [hotelId, setHotelId] = useState(null);
+  console.log(hotelId);
+  
   if (!ticket || ticket.status !== 'PAID') {
     return (
       <>
@@ -32,14 +34,14 @@ export default function HotelData() {
       </>
     );
   }
-  /* 
+  
   if (booking !== null) {
     if(booking === booked) {
       return (
         <>
           <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-          <HotelBox/>
-          <RoomCards booked={booked}/>
+          <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
+          
         </>
       );
     }
@@ -51,18 +53,18 @@ export default function HotelData() {
       </>
     );
   }
- */
+
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <HotelBox setHotelId = {setHotelId} hotelId = {hotelId}/>
+      <HotelBox setHotelId = {setHotelId} hotelId = {hotelId} booked={booked} setBooked={setBooked}/>
       {
         hotelId? 
           <>
             <Title variant="h6" color="textSecondary">Ótima pedida! Agora escolha seu quarto:</Title>
             <RoomCards booked={booked} hotelId = {hotelId}/>
           </> : null
-      }
+      }      
     </>
   );
 }

@@ -9,7 +9,7 @@ export default function HotelRooms(props) {
   const { id, user } = props;
 
   let [capacity, setCapacity] = useState(0);
-  const room =  useHotelRooms(user, id).rooms;
+  const hotel =  useHotelRooms(user, id).rooms;
   const booking = useBookingByRoomId(id).booking;
 
   let count=0;
@@ -20,8 +20,8 @@ export default function HotelRooms(props) {
   let double; 
   let triple;
 
-  if(room && booking) {
-    room.Rooms.forEach(room => {
+  if(hotel && booking) {
+    hotel.Rooms.forEach(room => {
       count = count + room.capacity;
       capacityArray.push(room.capacity);
     });
@@ -35,33 +35,28 @@ export default function HotelRooms(props) {
     triple = capacityArray.includes(3);
     
     if(single && double && triple) {
-      return('Single, Double and Triple');
+      return(<NormalLetter variant='subtitle'>Single, Double e Triple</NormalLetter>);
     }
 
     if(single && double && !triple) {
-      return('Single and Double');
+      return(<NormalLetter variant='subtitle'>Single e Double</NormalLetter>);
     }
 
     if(single && !double && !triple) {
-      return('Single');
+      return(<NormalLetter variant='subtitle'>Single</NormalLetter>);
     }
   }
 
   useEffect(() => {
     setCapacity(count - bookingNumber);
-  }, [room]);
+  }, [hotel]);
 
-  if(room && booking) {
+  if(hotel && booking && isNaN(capacity) === false) {
     return (
       <>
-        <GrandLetter variant='h6'>{room.name}</GrandLetter>
+        <GrandLetter variant='h6'>{hotel.name}</GrandLetter>
         <BoldLetter variant='subtitle' > Tipos de Acomodação:</BoldLetter>
-        <NormalLetter>
-          {
-            descriptionString(single, double, triple)
-          }
-
-        </NormalLetter>
+        {descriptionString(single, double, triple)}        
         <BoldLetter variant='subtitle'>Vagas Disponíveis:</BoldLetter>
         <NormalLetter>
           {capacity}
@@ -74,7 +69,6 @@ export default function HotelRooms(props) {
   );
 }
 const BoldLetter = styled(Typography)`
-font-family: 'Roboto';
 font-style: normal;
 font-weight: 700;
 font-size: 12px;
@@ -94,8 +88,8 @@ margin-bottom: 10px;
 margin-top: 10px
 `;
 
-const NormalLetter = styled.h3`
-font-family: 'Roboto';
+const NormalLetter = styled(Typography)`
+
 font-style: normal;
 font-weight: 400;
 font-size: 12px;
