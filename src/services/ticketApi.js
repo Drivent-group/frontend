@@ -38,12 +38,18 @@ export async function getAvailableTickets(token) {
 }
 
 export async function getTicket(token) {
-  const response = await api.get('/tickets', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.data;
+  try {
+    const response = await api.get('/tickets', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  
+    return response.data;    
+  } catch (error) {
+    if (error.name === 'NotFoundError') {
+      return null;
+    }
+  }
 }
 //
