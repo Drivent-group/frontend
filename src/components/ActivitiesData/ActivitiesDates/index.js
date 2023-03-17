@@ -1,33 +1,23 @@
 import { Box, Typography } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useDates from '../../../hooks/api/useDate';
 import DateCard from './DateCard';
 
 export default function ActivitiesDates({ chosen, setChosen }) {
-  const dates = [
-    {
-      'id': 1,
-      'day': '2023-10-22',
-    },
-    {
-      'id': 2,
-      'day': '2023-10-23',
-    },
-    {
-      'id': 3,
-      'day': '2023-10-24',
-    },
-  ];
+  const [dates, setDates] = useState([]);
+  const data = useDates();
+  
+  useEffect(async() => {
+    if(data.dates !== null) {
+      setDates(data.dates);
+    }
+  }, [data.datesLoading === false]);
 
   const display = {
     true: <Title variant="h6" color="textSecondary" >Primeiro, filtre pelo dia do evento:</Title>,
     false: '',
   };
-  
-  /* useEffect(async() => {
-    const data = await getDates();
-    setDates(data.dates);
-  }, []); */
 
   if (dates.length === 0) {
     return (
