@@ -1,7 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import useDates from '../../../hooks/api/useDate';
+import useDates from '../../../hooks/api/useDates';
 import DateCard from './DateCard';
 
 export default function ActivitiesDates({ chosen, setChosen }) {
