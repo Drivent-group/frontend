@@ -11,11 +11,12 @@ export default function DateCard({ item, chosen, setChosen }) {
       setChosen(item);
     }
   };
+
   let lst = item.day.split('-');
-  const d = new Date(`${item.day} 01:15:00`);
-  let day = d.getDay();
+  const weekDay = new Date(`${item.day.slice(0, 22)}`);
+  let day = weekDay.getDay();
   const week = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-  const string = `${week[day]}, ${lst[1]}/${lst[2]} `;
+  const string = `${week[day]}, ${lst[1]}/${lst[2].slice(0, 2)} `;
 
   return (
     <Card
