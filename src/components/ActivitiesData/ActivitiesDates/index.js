@@ -7,22 +7,26 @@ import DateCard from './DateCard';
 export default function ActivitiesDates({ chosen, setChosen }) {
   const [dates, setDates] = useState([]);
   const data = useDates();
-  
-  useEffect(async() => {
-    if(data.dates !== null) {
+
+  useEffect(() => {
+    if (data.dates !== null) {
       setDates(data.dates);
     }
   }, [data.datesLoading === false]);
 
   const display = {
-    true: <Title variant="h6" color="textSecondary" >Primeiro, filtre pelo dia do evento:</Title>,
+    true: (
+      <Title variant="h6" color="textSecondary">
+        Primeiro, filtre pelo dia do evento:
+      </Title>
+    ),
     false: '',
   };
 
   if (dates.length === 0) {
     return (
       <Dates>
-        <StyledTypography alignitems="center" variant="body1" color="textSecondary" align="center">
+        <StyledTypography variant="body1" color="textSecondary" align="center">
           {'Carregando tickets'}
         </StyledTypography>
       </Dates>
@@ -33,7 +37,7 @@ export default function ActivitiesDates({ chosen, setChosen }) {
         {display[chosen === null]}
         <Dates>
           {dates.map((item) => (
-            <DateCard key={item.id} item={item} chosen={chosen} setChosen={setChosen}/>
+            <DateCard key={item.id} item={item} chosen={chosen} setChosen={setChosen} />
           ))}
         </Dates>
       </>
@@ -56,4 +60,3 @@ const Title = styled(Typography)`
   margin-top: 25px !important;
   margin-bottom: 10px !important;
 `;
-
