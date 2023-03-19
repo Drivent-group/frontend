@@ -43,3 +43,16 @@ export async function getAvailableSeats(token, activityId, dayId) {
     return null;
   }
 }
+
+export async function getUserSeats(token) {
+  try {
+    const response = await api.get('/activities/seats/user', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (errors) {
+    return null;
+  }
+}

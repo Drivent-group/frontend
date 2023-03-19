@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 
-export default function Vacancies({ capacity, occupiedSeats }) {
+export default function Vacancies({ capacity, occupiedSeats, booked }) {
   const [occupied, setOcuppied] = useState(null);
   const vacancies = capacity - occupiedSeats;
-  console.log(vacancies);
-  
+
   useEffect(() => {
     if (occupiedSeats === capacity) {
       setOcuppied(false);
@@ -16,17 +16,26 @@ export default function Vacancies({ capacity, occupiedSeats }) {
 
   return (
 
-    occupied ?
+    booked ?
       <Data>
-        <img src='https://i.ibb.co/6ycWSy7/pepicons-enter.png' />
-        <TextVacancie> {vacancies} vagas </TextVacancie> 
+        <AiOutlineCheckCircle color="green" fontSize="20px"  stroke-width = "30"/>
+        <TextVacancie> Inscrito</TextVacancie> 
       </Data>
+      
       :
+      
+      occupied ?
+        <Data>
+          <img src='https://i.ibb.co/6ycWSy7/pepicons-enter.png' />
+          <TextVacancie> {vacancies} vagas </TextVacancie> 
+        </Data>
+        
+        :
 
-      <Data>
-        <img src='https://i.ibb.co/kGX6pVX/ant-design-close-circle-outlined.png' />
-        <TextOcuppied> Esgotado </TextOcuppied> 
-      </Data>
+        <Data>
+          <img src='https://i.ibb.co/kGX6pVX/ant-design-close-circle-outlined.png' />
+          <TextOcuppied> Esgotado </TextOcuppied> 
+        </Data>
   );
 }
 
