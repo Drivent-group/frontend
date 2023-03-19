@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 import useActivitiesByDayId from '../../../hooks/api/useActivitiesByDayId';
 import ActivityCard from './ActivityCard';
@@ -5,6 +6,7 @@ import ActivityCard from './ActivityCard';
 export default function Activities({ dayId }) {
   let data = useActivitiesByDayId(dayId);
   const hashTable = {};
+
   data.activities?.forEach((current) => {
     if (hashTable[current.venueId] === undefined) {
       hashTable[current.venueId] = [current];
@@ -12,7 +14,15 @@ export default function Activities({ dayId }) {
       hashTable[current.venueId].push(current);
     }
   });
+
   const hashTableKeys = Object.keys(hashTable);
+
+  hashTableKeys.forEach((currentKey) => {
+    hashTable[currentKey].sort((a, b) => {
+      return dayjs(a.startTime).get('hour') - dayjs(b.startTime).get('hour');
+    });
+  });
+
   return (
     <>
       <ActivitiesTitle gridLength={hashTableKeys.length}>
@@ -35,13 +45,11 @@ export default function Activities({ dayId }) {
   );
 }
 const ActivitiesTitle = styled.div`
-  ${({ gridLength }) => gridLength && `grid-template-columns: repeat(${gridLength}, 1fr);`}
-  grid-template-rows:  fill;
   display: grid;
+  ${({ gridLength }) => gridLength && `grid-template-columns: repeat(${gridLength}, 1fr);`}
   grid-gap: 1px;
 
   & > * {
-    font-style: normal;
     font-weight: 400;
     font-size: 17px;
     line-height: 40px;
@@ -50,15 +58,18 @@ const ActivitiesTitle = styled.div`
   }
 `;
 const ActivitiesTable = styled.div`
-  ${({ gridLength }) => gridLength && `grid-template-columns: repeat(${gridLength}, 1fr);`}
-  grid-template-rows:  fill;
   display: grid;
+  ${({ gridLength }) => gridLength && `grid-template-columns: repeat(${gridLength}, 1fr);`}
   background-color: #d7d7d7;
   border: 1px solid #d7d7d7;
   grid-gap: 1px;
 
   & > * {
     background-color: #fff;
-    min-height: 100%;
+    padding: 10px;
+    min-height: 200px;
+    & > div:nth-child(n + 2) {
+      margin-top: 10px;
+    }
   }
 `;
