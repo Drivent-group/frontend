@@ -2,7 +2,7 @@ import { Box, Typography } from '@material-ui/core';
 import useHotel from '../../../hooks/api/useHotel';
 import useToken from '../../../hooks/useToken';
 import HotelRooms from './HotelRoom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export default function HotelBox(props) {
   const user = useToken();

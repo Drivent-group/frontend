@@ -15,7 +15,6 @@ export default function HotelData() {
   const { ticket } = useTicket();
   const { booking } = useBooking();
   const [hotelId, setHotelId] = useState(null);
-
   const display = {
     true: <>
       <Title variant="h6" color="textSecondary">Ótima pedida! Agora escolha seu quarto:</Title>

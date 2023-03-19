@@ -1,28 +1,25 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useHotelRooms from '../../../hooks/api/useHotelRooms';
-import { Box, Typography } from '@material-ui/core';
-import useBookingByRoomId from '../../../hooks/api/useBookingByRoomId';
-import useBooking from '../../../hooks/api/useBooking';
+import { Typography } from '@material-ui/core';
 
 export default function HotelRooms(props) {
   const { id, user } = props;
 
-  let [capacity, setCapacity] = useState(0);
+  let [capacity, setCapacity] = useState(null);
   const hotel =  useHotelRooms(user, id).rooms;
-  const booking = useBookingByRoomId(id).booking;
 
   let count=0;
   let bookingNumber;
   const capacityArray = [];
-  
-  if(hotel && booking) {
+
+  if(hotel) {
     hotel.Rooms.forEach(room => {
+      console.log(room.Booking.length);
       count = count + room.capacity;
+      count = count - room.Booking.length;
       capacityArray.push(room.capacity);
     });
-    
-    bookingNumber = booking.length;
   }
 
   function descriptionString()  {
@@ -38,6 +35,14 @@ export default function HotelRooms(props) {
       return(<NormalLetter variant='subtitle'>Single e Double</NormalLetter>);
     }
 
+    if(single && !double && triple) {
+      return(<NormalLetter variant='subtitle'>Single e Triple</NormalLetter>);
+    }
+
+    if(!single && double && triple) {
+      return(<NormalLetter variant='subtitle'>Double e Triple</NormalLetter>);
+    }
+
     if(single && !double && !triple) {
       return(<NormalLetter variant='subtitle'>Single</NormalLetter>);
     }
@@ -47,22 +52,23 @@ export default function HotelRooms(props) {
     }
 
     if(!single && !double && triple) {
-      return(<NormalLetter variant='subtitle'>Single</NormalLetter>);
+      return(<NormalLetter variant='subtitle'>Triple</NormalLetter>);
     }
   }
-
+  
   useEffect(() => {
-    setCapacity(count - bookingNumber);
+    setCapacity(count);
   }, [hotel]);
 
-  if(hotel && booking && isNaN(capacity) === false) {
+  if(hotel && isNaN(capacity) === false) {
     return (
       <>
         <GrandLetter variant='h6'>{hotel.name}</GrandLetter>
-        <BoldLetter variant='subtitle' > Tipos de Acomodação:</BoldLetter>
+
+        <BoldLetter variant='subtitle' > Tipos de acomodação:</BoldLetter>
         {descriptionString()}        
-        <BoldLetter variant='subtitle'>Vagas Disponíveis:</BoldLetter>
-        <NormalLetter>
+        <BoldLetter variant='subtitle'>Vagas disponíveis:</BoldLetter>
+        <NormalLetter variant='subtitle'>
           {capacity}
         </NormalLetter>
       </>
@@ -78,18 +84,18 @@ font-weight: 700;
 font-size: 12px;
 line-height: 14px;
 color: #343434;
-margin-bottom: 5px !important;
+margin-top: 10px !important;
+margin-bottom: 2px !important;
 `;
 
 const GrandLetter = styled(Typography)`
-font-family: 'Roboto';
 font-style: normal;
 font-weight: 400;
 font-size: 20px;
 line-height: 23px;
 color: #343434;
 margin-bottom: 10px;
-margin-top: 10px
+margin-top: 10px !important;
 `;
 
 const NormalLetter = styled(Typography)`
