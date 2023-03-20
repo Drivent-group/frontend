@@ -1,18 +1,23 @@
 import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useSeatsByTicket from '../../../hooks/api/useSeatsByUser';
+import useToken from '../../../hooks/useToken';
+import { postSeat } from '../../../services/activitiesApi';
 import Vacancies from './Vacancies';
 
-export default function ActivityCard({ activity }) {
+export default function ActivityCard({ activity, booked }) {
   const duration = dayjs(activity.endTime).diff(activity.startTime, 'hour', true);
   const startHour = dayjs(activity.startTime).get('hour') + 3 + ':00';
   const endHour = dayjs(activity.endTime).get('hour') + 3 + ':00';
+  const token = useToken();
   return (
-    <Card duration={duration}>
+    <Card duration={duration} onClick = {() => postSeat(token, activity.id)} booked = {booked}>
       <ActivityNameAndTime>
         <ActivityName>{activity.name}</ActivityName>
         <ActivityTime>{startHour + ' - ' + endHour}</ActivityTime>
       </ActivityNameAndTime>
-      <Vacancies capacity={activity.Venue.capacity} occupiedSeats={activity._count.Seat} />
+      <Vacancies capacity={activity.Venue.capacity} occupiedSeats={activity._count.Seat} booked = {booked} />
     </Card>
   );
 }
@@ -22,7 +27,7 @@ const Card = styled.div`
   ${({ duration }) => `height: calc(${duration} * 80px + ${duration - 1} * 10px);`}
   display: flex;
   justify-content: space-between;
-  background-color: #f1f1f1;
+  background-color: ${(props) => props.booked ?'#D0FFDB': '#f1f1f1' };
   border-radius: 5px;
   padding: 12px 10px;
 `;

@@ -1,12 +1,16 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import useActivitiesByDayId from '../../../hooks/api/useActivitiesByDayId';
+import useSeatsByTicket from '../../../hooks/api/useSeatsByUser';
+import useToken from '../../../hooks/useToken';
 import ActivityCard from './ActivityCard';
 
 export default function Activities({ dayId }) {
   let data = useActivitiesByDayId(dayId);
   const hashTable = {};
-
+  const token = useToken();
+  const userActivities = useSeatsByTicket(token);
+  
   data.activities?.forEach((current) => {
     if (hashTable[current.venueId] === undefined) {
       hashTable[current.venueId] = [current];
@@ -35,7 +39,15 @@ export default function Activities({ dayId }) {
           return (
             <div key={currentKey}>
               {hashTable[currentKey].map((currentActivity) => {
-                return <ActivityCard key={currentActivity.id} activity={currentActivity} />;
+                let booked = false;
+                if(userActivities.UserSeats !== null) {
+                  const isBooked = userActivities.UserSeats.seats.filter((seat) => seat.activityId === currentActivity.id).length;
+                  if(isBooked>0) {
+                    booked = true;
+                  }
+                }
+
+                return <ActivityCard key={currentActivity.id} activity={currentActivity} booked ={booked}/>;
               })}
             </div>
           );
